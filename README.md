@@ -1,1 +1,1 @@
-# beautybook
+# Beauty Book Official Development Repo
