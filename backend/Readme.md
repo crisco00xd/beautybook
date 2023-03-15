@@ -1,6 +1,6 @@
-# My Project - Backend
+# BeautyBook - Backend
 
-This is the backend for the My Project web application, built using Flask, SQLAlchemy, and MySQL.
+Web application built using Flask, SQLAlchemy, and MySQL.
 
 ## Requirements
 
