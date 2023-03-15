@@ -1,6 +1,6 @@
 # BeautyBook - Backend
 
-Web application built using Flask, SQLAlchemy, and MySQL.
+Web application built using Flask and MySQL.
 
 ## Requirements
 
