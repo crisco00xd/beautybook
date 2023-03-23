@@ -1,13 +1,15 @@
 from app import db
 from sqlalchemy.dialects.mysql import INTEGER
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     userID = db.Column(INTEGER(unsigned=True), primary_key=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
+    roles = db.Column(db.String(80), nullable=True)
 
 class Appointment(db.Model):
     appointmentID = db.Column(INTEGER(unsigned=True), primary_key=True)
@@ -35,6 +37,7 @@ class Stylist(db.Model):
     salonID = db.Column(INTEGER(unsigned=True), db.ForeignKey('salon.salonID'), nullable=False)
     userID = db.Column(INTEGER(unsigned=True), db.ForeignKey('user.userID'), nullable=False)
     services = db.relationship('Service', secondary=stylist_services, backref=db.backref('stylists', lazy=True))
+    admin = db.Column(db.Boolean, default=False)
 
 class Notification(db.Model):
     notificationID = db.Column(INTEGER(unsigned=True), primary_key=True)

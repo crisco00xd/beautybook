@@ -1,8 +1,15 @@
 from app import db
 from app.models import Appointment
 from datetime import datetime
+from datetime import timedelta
+from app.models import Service
 
 def create_appointment(data):
+    # Check if the proposed time conflicts with existing appointments
+    service = Service.query.get(data['serviceID'])
+    if is_stylist_busy(data['stylistID'], data['date'], data['time'], service.duration):
+        return None
+
     appointment = Appointment(
         date=data['date'],
         time=data['time'],
@@ -13,6 +20,7 @@ def create_appointment(data):
     db.session.add(appointment)
     db.session.commit()
     return appointment
+
 
 def get_appointment(appointment_id):
     return Appointment.query.get(appointment_id)
@@ -53,3 +61,21 @@ def get_busy_times():
             'end_time': utc_end_time
         })
     return busy_times
+
+def is_stylist_busy(stylist_id, proposed_date, proposed_time, service_duration):
+    busy_times = get_busy_times()
+    proposed_start = datetime.combine(proposed_date, proposed_time)
+    proposed_end = proposed_start + service_duration
+
+    for busy_time in busy_times:
+        busy_date = busy_time['date']
+        busy_start = datetime.combine(busy_date, busy_time['start_time'])
+        busy_end = datetime.combine(busy_date, busy_time['end_time'])
+
+        if stylist_id == busy_time['stylistID'] and proposed_date == busy_date:
+            if (proposed_start >= busy_start and proposed_start < busy_end) or \
+               (proposed_end > busy_start and proposed_end <= busy_end) or \
+               (proposed_start <= busy_start and proposed_end >= busy_end):
+                return True
+    return False
+
