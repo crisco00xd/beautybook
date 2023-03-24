@@ -138,5 +138,5 @@ def admin_dashboard():
 @app.route('/restricted', methods=['GET'])
 @is_superuser
 def restricted_route():
-    #CHANGE THIS TODO
+    #CHANGE THIS
     pass

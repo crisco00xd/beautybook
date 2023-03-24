@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     roles = db.Column(db.String(80), nullable=True)
+    is_superuser = db.Column(db.Boolean, default=False)
 
 class Appointment(db.Model):
     appointmentID = db.Column(INTEGER(unsigned=True), primary_key=True)
