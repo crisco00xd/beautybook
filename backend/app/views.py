@@ -6,6 +6,7 @@ from flask import jsonify, request
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import LoginForm, RegisterForm
+from app.decorators import is_superuser
 
 @app.route('/')
 def index():
@@ -107,7 +108,7 @@ def register():
     form = RegisterForm.from_json(data)
     if form.validate():
         hashed_password = generate_password_hash(data['password'])
-        new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'])
+        new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'], is_superuser=data.get('is_superuser', False))
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "User registered successfully"})
@@ -129,3 +130,13 @@ def admin_dashboard():
 
     # Your admin dashboard implementation here
     return jsonify({"message": "Welcome to the admin dashboard"})
+
+
+
+# This is Super User Only Access Routes
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@app.route('/restricted', methods=['GET'])
+@is_superuser
+def restricted_route():
+    #CHANGE THIS TODO
+    pass
