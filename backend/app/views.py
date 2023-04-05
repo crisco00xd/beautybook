@@ -1,5 +1,5 @@
 from app import app, db
-from app.controllers import appointments
+from app.controllers import appointments, users, notifications, salons, services, stylists
 from app.models import Notification, User, Stylist
 from app.utils import send_notification
 from flask import jsonify, request
@@ -215,6 +215,51 @@ def delete_stylist(stylist_id):
         return jsonify({"error": "Stylist not found"}), 404
 
     return jsonify({"message": "Stylist deleted"})
+
+# Create a new notification
+@app.route('/notifications', methods=['POST'])
+def create_notification():
+    data = request.get_json()
+    notification = notifications.create_notification(data)
+    
+    if not notification:
+        return jsonify({"error": "Notification already exist"}), 400
+    
+    return jsonify({"message": "Notification created"}), 201
+
+# Get an notification by ID
+@app.route('/notifications/<int:notification_id>', methods=['GET'])
+def get_notification(notification_id):
+    notification = notifications.get_notification(notification_id)
+    if not notification:
+        return jsonify({"error": "Notification not found"}), 404
+
+    return jsonify(notification.serialize())
+
+# Get all notifications
+@app.route('/notifications', methods=['GET'])
+def get_all_notifications():
+    notifications_list = notifications.get_all_notification()
+    return jsonify([notification.serialize() for notification in notifications_list])
+
+# Update notification
+@app.route('/notifications/<int:notification_id>', methods=['PUT'])
+def update_notification(notification_id):
+    data = request.get_json()
+    notification = notifications.update_notification(notification_id, data)
+    if not notification:
+        return jsonify({"error": "Notification not found"}), 404
+
+    return jsonify({"message": "Notification updated"})
+
+# Delete notification
+@app.route('/notifications/<int:notification_id>', methods=['DELETE'])
+def delete_notification(notification_id):
+    deleted = notifications.delete_notification(notification_id)
+    if not deleted:
+        return jsonify({"error": "Notification not found"}), 404
+
+    return jsonify({"message": "Notification deleted"})
 
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
