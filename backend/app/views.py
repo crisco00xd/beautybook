@@ -12,6 +12,51 @@ from app.decorators import is_superuser
 def index():
     return jsonify({"message": "Hello, world!"})
 
+# Create a new user
+@app.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    user = users.create_user(data)
+    
+    if not user:
+        return jsonify({"error": "User already exist"}), 400
+    
+    return jsonify({"message": "User created"}), 201
+
+# Get an user by ID
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify(user.serialize())
+
+# Get all users
+@app.route('/users', methods=['GET'])
+def get_all_users():
+    users_list = users.get_all_user()
+    return jsonify([user.serialize() for user in users_list])
+
+# Update user
+@app.route('/users/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.get_json()
+    user = users.update_user(user_id, data)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({"message": "User updated"})
+
+# Delete user
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    deleted = users.delete_user(user_id)
+    if not deleted:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({"message": "User deleted"})
+
 # Create a new appointment
 @app.route('/appointments', methods=['POST'])
 def create_appointment():
