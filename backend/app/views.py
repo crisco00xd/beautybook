@@ -261,6 +261,51 @@ def delete_notification(notification_id):
 
     return jsonify({"message": "Notification deleted"})
 
+# Create a new salon
+@app.route('/salons', methods=['POST'])
+def create_salon():
+    data = request.get_json()
+    salon = salons.create_salon(data)
+    
+    if not salon:
+        return jsonify({"error": "Salon already exist"}), 400
+    
+    return jsonify({"message": "Salon created"}), 201
+
+# Get an salon by ID
+@app.route('/salons/<int:salon_id>', methods=['GET'])
+def get_salon(salon_id):
+    salon = salons.get_salon(salon_id)
+    if not salon:
+        return jsonify({"error": "Salon not found"}), 404
+
+    return jsonify(salon.serialize())
+
+# Get all salons
+@app.route('/salons', methods=['GET'])
+def get_all_salons():
+    salons_list = salons.get_all_salon()
+    return jsonify([salon.serialize() for salon in salons_list])
+
+# Update salon
+@app.route('/salons/<int:salon_id>', methods=['PUT'])
+def update_salon(salon_id):
+    data = request.get_json()
+    salon = salons.update_salon(salon_id, data)
+    if not salon:
+        return jsonify({"error": "Salon not found"}), 404
+
+    return jsonify({"message": "Salon updated"})
+
+# Delete salon
+@app.route('/salons/<int:salon_id>', methods=['DELETE'])
+def delete_salon(salon_id):
+    deleted = salons.delete_salon(salon_id)
+    if not deleted:
+        return jsonify({"error": "Salon not found"}), 404
+
+    return jsonify({"message": "Salon deleted"})
+
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
