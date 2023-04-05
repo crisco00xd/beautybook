@@ -126,6 +126,51 @@ def get_busy_times():
     busy_times = appointments.get_busy_times()
     return jsonify(busy_times)
 
+# Create a new service
+@app.route('/services', methods=['POST'])
+def create_service():
+    data = request.get_json()
+    service = services.create_user(data)
+    
+    if not service:
+        return jsonify({"error": "Service already exist"}), 400
+    
+    return jsonify({"message": "Service created"}), 201
+
+# Get an service by ID
+@app.route('/services/<int:service_id>', methods=['GET'])
+def get_service(service_id):
+    service = services.get_user(service_id)
+    if not service:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify(service.serialize())
+
+# Get all services
+@app.route('/services', methods=['GET'])
+def get_all_services():
+    services_list = services.get_all_service()
+    return jsonify([service.serialize() for service in services_list])
+
+# Update service
+@app.route('/services/<int:service_id>', methods=['PUT'])
+def update_service(service_id):
+    data = request.get_json()
+    service = services.update_service(service_id, data)
+    if not service:
+        return jsonify({"error": "Service not found"}), 404
+
+    return jsonify({"message": "Service updated"})
+
+# Delete service
+@app.route('/services/<int:service_id>', methods=['DELETE'])
+def delete_service(service_id):
+    deleted = services.delete_service(service_id)
+    if not deleted:
+        return jsonify({"error": "Service not found"}), 404
+
+    return jsonify({"message": "Service deleted"})
+
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
