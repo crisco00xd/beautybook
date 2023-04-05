@@ -171,6 +171,51 @@ def delete_service(service_id):
 
     return jsonify({"message": "Service deleted"})
 
+# Create a new stylist
+@app.route('/stylists', methods=['POST'])
+def create_stylist():
+    data = request.get_json()
+    stylist = stylists.create_stylist(data)
+    
+    if not stylist:
+        return jsonify({"error": "Stylist already exist"}), 400
+    
+    return jsonify({"message": "Stylist created"}), 201
+
+# Get an stylist by ID
+@app.route('/stylists/<int:stylist_id>', methods=['GET'])
+def get_stylist(stylist_id):
+    stylist = stylists.get_stylist(stylist_id)
+    if not stylist:
+        return jsonify({"error": "Stylist not found"}), 404
+
+    return jsonify(stylist.serialize())
+
+# Get all stylists
+@app.route('/stylists', methods=['GET'])
+def get_all_stylists():
+    stylists_list = stylists.get_all_stylist()
+    return jsonify([stylist.serialize() for stylist in stylists_list])
+
+# Update stylist
+@app.route('/stylists/<int:stylist_id>', methods=['PUT'])
+def update_stylist(stylist_id):
+    data = request.get_json()
+    stylist = stylists.update_stylist(stylist_id, data)
+    if not stylist:
+        return jsonify({"error": "Stylist not found"}), 404
+
+    return jsonify({"message": "Stylist updated"})
+
+# Delete stylist
+@app.route('/stylists/<int:stylist_id>', methods=['DELETE'])
+def delete_stylist(stylist_id):
+    deleted = stylists.delete_stylist(stylist_id)
+    if not deleted:
+        return jsonify({"error": "Stylist not found"}), 404
+
+    return jsonify({"message": "Stylist deleted"})
+
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
