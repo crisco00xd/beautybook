@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {close, menu, salonlogo} from '../assets';
-import {navLinks} from '../constants';
+import {navLinks, navLinksStylist} from '../constants';
 
-const Navbar = () => {
+const NavbarStylist = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
 
@@ -19,7 +19,7 @@ const Navbar = () => {
       className = 'w-[124px] h-[32px]' />
 
       <ul className = 'list-none sm:flex hidden justify-end items-center flex-1'>
-        {navLinks.map((nav, index) => (
+        {navLinksStylist.map((nav, index) => (
           <li
             key = {nav.id}
             className = {`font-poppins font.normal cursor-pointer text-[16px]} 
@@ -53,7 +53,7 @@ const Navbar = () => {
         >
         
             <ul className = 'list-none flex flex-col justify-end items-center flex-1'>
-            {navLinks.map((nav, index) => (
+            {navLinksStylist.map((nav, index) => (
               <li
                 key = {nav.id}
                 className = {`font-poppins font.normal cursor-ponter text-[16px]} 
@@ -76,4 +76,4 @@ const Navbar = () => {
   )
 }
  
-export default Navbar
+export default NavbarStylist 

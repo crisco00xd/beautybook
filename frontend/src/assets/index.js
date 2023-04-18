@@ -9,6 +9,8 @@ import salonlogo from "./salonlogo.png";
 import user from "./user.png";
 import beautyBookLogo from "./beautyBookLogo.png";
 import bookImage1 from "./bookImage1.png";
+import viewAppts from "./viewAppts.png";
+import mySalonPic from "./mySalonPic.png"
 
 export {
   menu,
@@ -22,4 +24,6 @@ export {
   user, 
   beautyBookLogo,
   bookImage1,
+  viewAppts,
+  mySalonPic,
 };
