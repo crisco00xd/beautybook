@@ -19,6 +19,25 @@ export const navLinks = [
   },
 ];
 
+export const navLinksStylist = [
+  {
+    id: "/",
+    title: "Home",
+  },
+  {
+    id: "appointments",
+    title: "Appointments",
+  },
+  {
+    id: "statistics",
+    title: "Satistics",
+  },
+  {
+    id: "salon",
+    title: "Salon",
+  },
+];
+
 
 export const stats = [
   {
