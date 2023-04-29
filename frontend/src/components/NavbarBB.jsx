@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import {close, menu, salonlogo, notificationsIcon} from '../assets';
-import {navLinks, navLinksStylist} from '../constants';
+import {close, menu, notificationsIcon, beautyBookLogo} from '../assets';
+import {navLinksBB} from '../constants';
 
-const NavbarStylist = () => {
+const NavbarBB = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
 
@@ -15,18 +15,15 @@ const NavbarStylist = () => {
     */
 
     <nav className = 'w-full flex py-6 justify-between items-center navbar'>
-      <img src = {salonlogo} alt = 'samplesalon' // places logo on left hand side of navbar
-      className = 'w-[124px] h-[32px]' />
-
-      <img src = {notificationsIcon} alt = 'samplesalon' // places logo on left hand side of navbar
-      className = 'ml-4 w-[22px] h-[24px]' />
+      <img src = {beautyBookLogo} alt = 'samplesalon' // places logo on left hand side of navbar
+      className = 'w-[80px] h-[32px]' />
 
       <ul className = 'list-none sm:flex hidden justify-end items-center flex-1'>
-        {navLinksStylist.map((nav, index) => (
+        {navLinksBB.map((nav, index) => (
           <li
             key = {nav.id}
             className = {`font-poppins font.normal cursor-pointer text-[16px]} 
-            ${index === navLinks.length - 1? 'mr-0' : 'mr-10'} text-white mr-10 `}
+            ${index === navLinksBB.length - 1? 'mr-0' : 'mr-10'} text-white mr-10 `}
           
           > 
 
@@ -56,11 +53,11 @@ const NavbarStylist = () => {
         >
         
             <ul className = 'list-none flex flex-col justify-end items-center flex-1'>
-            {navLinksStylist.map((nav, index) => (
+            {navLinksBB.map((nav, index) => (
               <li
                 key = {nav.id}
                 className = {`font-poppins font.normal cursor-ponter text-[16px]} 
-                ${index === navLinks.length - 1? 'mr-0' : 'mb-4'} text-white`}
+                ${index === navLinksBB.length - 1? 'mr-0' : 'mb-4'} text-white`}
               
               > 
 
@@ -79,4 +76,4 @@ const NavbarStylist = () => {
   )
 }
  
-export default NavbarStylist 
+export default NavbarBB

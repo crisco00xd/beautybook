@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from "../../style.js";
-import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "../../components";
+import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments, InputHandler } from "../../components";
 import { mySalonPic } from '../../assets/index.js';
 import { Link } from 'react-router-dom';
 
 const Salon = () => (
+    
     <div className="bg-primary w-full overflow-hidden">
       
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
@@ -13,25 +14,23 @@ const Salon = () => (
           </div>
       </div>
 
-      <div className={`bg-white flex items-start text`}>
+      <div className={`bg-white flex justify-center sm:items-start items-center`}>
           <img src = {mySalonPic} alt = 'mySalonPic'
-            className = ' mt-10 mb-8 ml-14 w-[552px] h-[552px]' />
+            className = 'mt-10 mb-8 ml-14 sm:w-[552px] sm:h-[552px] w-[150px] h-[150px]' />
 
-            <div>
-              <h1 className="pt-20 pl-10 mt-40 ml-10 flex-1 font-poppins font-semibold ss:text-[72px] text-[52px] text-stone-800 ss:leading-[100.8px] leading-[75px]">
-                SALON NAME HERE <br className="sm:block hidden" />{" "}
-              </h1>
-            </div>
+              <div className="sm:pt-20 sm:pl-10 sm:mt-40 ml-10 flex-1 font-poppins font-semibold sm:text-[72px] text-[30px] text-stone-800 sm:leading-[100.8px]">
+                SALON NAME HERE
+              </div>
 
       </div>
 
       <div className='bg-white flex pl-14'>
 
-        <Link to="/salonedit" className='mb-8 font-poppins font-semi text-[30px] text-stone-800 hover:bg-gray-100'>
+        <Link to="/salonedit" className='mb-8 font-poppins font-semi sm:text-[30px] text-[20px] text-stone-800 hover:bg-gray-100'>
             EDIT MY SALON
         </Link>
         
-        <Link to="/stylistsedit" className='ml-6 font-poppins font-semi text-[30px] text-stone-800 hover:bg-gray-100'>
+        <Link to="/stylistsedit" className='sm:ml-6 font-poppins font-semi sm:text-[30px] text-[20px] text-stone-800 hover:bg-gray-100'>
             ADD/REMOVE STYLISTS
         </Link>
                     

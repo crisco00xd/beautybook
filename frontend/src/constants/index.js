@@ -19,6 +19,25 @@ export const navLinks = [
   },
 ];
 
+export const navLinksBB = [
+  {
+    id: "home",
+    title: "Home",
+  },
+  {
+    id: "salons",
+    title: "Salons",
+  },
+  {
+    id: "aboutus",
+    title: "About Us",
+  },
+  {
+    id: "signin",
+    title: "Sign In",
+  },
+];
+
 export const navLinksStylist = [
   {
     id: "/",
@@ -35,6 +54,10 @@ export const navLinksStylist = [
   {
     id: "salon",
     title: "Salon",
+  },
+  {
+    id: "signin",
+    title: "Sign In",
   },
 ];
 

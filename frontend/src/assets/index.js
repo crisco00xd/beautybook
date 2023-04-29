@@ -11,6 +11,9 @@ import beautyBookLogo from "./beautyBookLogo.png";
 import bookImage1 from "./bookImage1.png";
 import viewAppts from "./viewAppts.png";
 import mySalonPic from "./mySalonPic.png"
+import signInButon from './signInButton.png'
+import statsImage from './statsImage.png'
+import notificationsIcon from './notificationsIcon.png'
 
 export {
   menu,
@@ -26,4 +29,7 @@ export {
   bookImage1,
   viewAppts,
   mySalonPic,
+  signInButon,
+  statsImage,
+  notificationsIcon,
 };
