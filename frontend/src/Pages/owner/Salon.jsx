@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "../../style.js";
-import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments, InputHandler } from "../../components";
+import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "../../components";
 import { mySalonPic } from '../../assets/index.js';
 import { Link } from 'react-router-dom';
 

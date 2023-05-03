@@ -5,6 +5,7 @@ import {navLinks, navLinksStylist} from '../constants';
 const NavbarStylist = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
+  const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
 
   return (
     // sets layout style for navbar section (using tailwind)
@@ -19,7 +20,64 @@ const NavbarStylist = () => {
       className = 'w-[124px] h-[32px]' />
 
       <img src = {notificationsIcon} alt = 'samplesalon' // places logo on left hand side of navbar
-      className = 'ml-4 w-[22px] h-[24px]' />
+      className = 'ml-4 w-[22px] h-[24px]' 
+      onClick={() => setToggle2((prev) => !prev)}
+      />
+
+      <div className={`${
+            !toggle2 ? "hidden" : "flex"
+          } p-6 bg-white absolute top-20 md:left-40 xl:left-96 mx-4 my-2 w-[300px] h-[400px] drop-shadow-2xl border-2 border-black`}
+        >
+          <div className='flex-col'>
+
+            <div className='px-14 font-poppins text-bg font-black uppercase'>
+              Notifications
+            </div>
+
+            <div className='mt-6 font-poppins text-bg uppercase text-xs'>
+              MM/DD/YY HH:MM:SS
+            </div>
+
+            <div className='mt-2 font-poppins text-bg uppercase text-xs font-bold'>
+              {'[USER]'} Has requested an appointment with {'[STYLIST NAME]'} for {'[SERVICES]'}
+            </div>
+            
+            <div className='flex mt-2'>
+
+              <div className='font-poppins text-bg uppercase text-xs'>
+                When MM/DD/YY
+              </div>
+
+              <div className='ml-14 font-poppins text-bg uppercase text-xs'>
+                TIME: HH:MM:SS
+              </div>
+
+            </div>
+            
+            <div className='flex justify-center mt-2'>
+
+              <button className='h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs'>
+                
+                <div className='font-poppins text-white'>
+                  accept
+                </div>
+
+              </button>
+
+              <button className='ml-4 h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs'>
+                
+                <div className='font-poppins text-white'>
+                  deny
+                </div>
+
+              </button>
+
+            </div>
+
+          </div>
+          
+
+        </div>
 
       <ul className = 'list-none sm:flex hidden justify-end items-center flex-1'>
         {navLinksStylist.map((nav, index) => (

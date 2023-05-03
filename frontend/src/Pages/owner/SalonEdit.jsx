@@ -1,9 +1,10 @@
 import React from 'react'
 
-const SalonEdit = () => {
-  return (
-    <div>SalonEdit</div>
+const SalonEdit = () => (
+    <div className="bg-primary w-full overflow-hidden">
+        <div className=''>
+        </div>
+    </div>
   )
-}
 
 export default SalonEdit
