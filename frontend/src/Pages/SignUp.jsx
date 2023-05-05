@@ -1,15 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
+import { createUser } from "../queries";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // handle sign up logic here
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const data = {
+      name: "test4",
+      phone: "1234567890",
+      roles: "owner", //admin, stylist, owner
+      first_name: "Test",
+      last_name: "TEST",
+      email,
+      password,
+      is_superuser: false
+    };
+
+    const response = await createUser(data)
+    console.log(response);
+
   };
 
   return (

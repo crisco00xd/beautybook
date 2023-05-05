@@ -3,8 +3,8 @@ from app.models import User
 
 def create_user(data):
     #Checks if user already exists
-    if user_exist(data['userID'], data['email']):
-        return None
+    # if user_exist(data['email']):
+    #     return None
     
     user = User(
         email = data['email'],
