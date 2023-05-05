@@ -2,14 +2,19 @@ import {API_BASE_URL} from './config';
 
 // Users
 export async function createUser(data) {
-  const response = await fetch(`${API_BASE_URL}/users`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  return response.json();
+  try{
+    const response = await fetch(`${API_BASE_URL}/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+  catch(error){
+      console.log(error);
+  };
 }
 
 export async function getUserById(userId) {
