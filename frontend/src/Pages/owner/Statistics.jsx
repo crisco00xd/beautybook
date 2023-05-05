@@ -1,5 +1,5 @@
 import { statsImage } from "../../assets"
-import { NavbarStylist, Footer } from "../../components"
+import { NavbarOwner, Footer } from "../../components"
 import styles from "../../style"
 
 const Statistics = () => (
@@ -7,7 +7,7 @@ const Statistics = () => (
 
     <div className={`bg-black ${styles.paddingX} ${styles.flexCenter}`}>
 			<div className={`${styles.boxWidth}`}>
-				<NavbarStylist />
+				<NavbarOwner />
 			</div>
 		</div>
 

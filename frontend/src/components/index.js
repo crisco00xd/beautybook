@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import NavbarStylist from "./NavbarStylist";
+import NavbarOwner from "./NavbarOwner";
 import Footer from "./Footer";
 import Contact from "./Contact";
 import Book from "./Book";
@@ -15,5 +16,6 @@ export {
   BookLinker,
   SalonInfo,
   NavbarStylist,
+  NavbarOwner,
   ViewAppointments
 };
