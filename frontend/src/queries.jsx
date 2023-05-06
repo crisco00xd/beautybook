@@ -3,18 +3,43 @@ import {API_BASE_URL} from './config';
 // Users
 export async function createUser(data) {
   try{
-    const response = await fetch(`${API_BASE_URL}/users`, {
+    const response = await fetch(`${API_BASE_URL}/user/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return response;
   }
   catch(error){
       console.log(error);
   };
+}
+
+export async function signIn(email, password) {
+  const response = await fetch(`${API_BASE_URL}/user/sign-in`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ email, password }),
+  });
+
+  return response;
+}
+
+export async function signOut() {
+  const response = await fetch(`${API_BASE_URL}/user/sign-out`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  return response;
 }
 
 export async function getUserById(userId) {
