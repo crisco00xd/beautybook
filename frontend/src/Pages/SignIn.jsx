@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
-import { signIn, signOut } from "../queries";
+import { getAccessToken, getProtectedResource, signIn, signOut } from "../queries";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -13,8 +13,12 @@ function SignIn() {
 
     const response = await signIn(email, password)
     console.log(response);
-    // response = signOut();
-    // console.log(response);
+    const token = getAccessToken();
+    console.log(token);
+    const out = getProtectedResource();
+    console.log(out);
+    const signout = signOut();
+    console.log(signout)
 
 
   };
