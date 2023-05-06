@@ -318,7 +318,6 @@ def is_authenticated():
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
-    print(current_user.is_authenticated)
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"})
 
@@ -326,7 +325,6 @@ def sign_in():
     form = LoginForm.from_json(data)
     if form.validate():
         user = User.query.filter_by(email=data['email']).first()
-        print(user)
         if user and check_password_hash(user.password, data['password']):
             access_token = create_access_token(identity=user.userID)
             response = jsonify({"access_token": access_token})

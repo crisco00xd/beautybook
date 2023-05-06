@@ -34,7 +34,7 @@ export async function signIn(email, password) {
   return response;
 }
 
-export async function getProtectedResource() {
+export async function isAuthenticated() {
   const accessToken = getAccessToken();
 
   const response = await fetch(`${API_BASE_URL}/user/is-authenticated`, {
