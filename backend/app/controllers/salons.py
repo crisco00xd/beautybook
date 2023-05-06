@@ -3,10 +3,11 @@ from app.models import Salon
 
 def create_salon(data):
     #Checks if salon already exists
-    if salon_exist(data['salonID']):
-        return None
+    # if salon_exist(data['salonID']):
+    #     return None
     
     salon = Salon(
+        salon_name = data['salon_name'],
         description = data['description'],
         startTime = data['startTime'],
         closeTime = data['closeTime']

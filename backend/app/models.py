@@ -53,6 +53,7 @@ class Notification(db.Model):
 
 class Salon(db.Model):
     salonID = db.Column(INTEGER(unsigned=True), primary_key=True)
+    salon_name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=True)
     startTime = db.Column(db.Time, nullable=False)
     closeTime = db.Column(db.Time, nullable=False)
