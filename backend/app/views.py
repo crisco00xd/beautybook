@@ -7,7 +7,8 @@ from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import LoginForm, RegisterForm
 from app.decorators import is_superuser
-from app import login_manager
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
+
 
 
 @app.route('/')
@@ -308,16 +309,15 @@ def delete_salon(salon_id):
 
     return jsonify({"message": "Salon deleted"})
 
-@login_manager.user_loader
-def load_user(user_id):
-    print(f"Loading user with ID: {user_id}")
-    return User.query.get(int(user_id))
-
+@app.route('/user/is-authenticated', methods=['GET'])
+@jwt_required()
+def is_authenticated():
+    current_user_id = get_jwt_identity()
+    return jsonify({"message": f"User with id {current_user_id} is authenticated"}), 200
 
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
-    print(current_user.is_authenticated)
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"})
 
@@ -325,16 +325,14 @@ def sign_in():
     form = LoginForm.from_json(data)
     if form.validate():
         user = User.query.filter_by(email=data['email']).first()
-        print(user)
         if user and check_password_hash(user.password, data['password']):
-            login_user(user,remember=form.remember_me.data, force=True)
-            print(current_user.is_authenticated)
-            response = make_response("Logged in user: {}".format(user), 200)
-            response.set_cookie('session', session['_id'], samesite='None', secure=True)
-            return response
+            access_token = create_access_token(identity=user.userID)
+            response = jsonify({"access_token": access_token})
+            return response, 200
         else:
             return jsonify({"error": "Invalid email or password"}), 401
     return jsonify({"error": form.errors}), 400
+
 
 
 # Registration route
@@ -355,11 +353,17 @@ def register():
     return jsonify({"error": form.errors}), 400
 
 # Logout route
-@app.route('/user/sign-out')
-@login_required
+@app.route('/user/sign-out', methods=['GET'])
+@jwt_required()
 def sign_out():
-    logout_user()
-    return jsonify({"message": "Logged out successfully"})
+    identity = get_jwt_identity()
+    print(identity)
+    if identity:
+        response = jsonify({"message": "User logged out"})
+        unset_jwt_cookies(response)
+        return response, 200
+    else:
+        return jsonify({"error": "No user is logged in"}), 401
 
 # Example protected route with role-based access
 @app.route('/admin/dashboard')

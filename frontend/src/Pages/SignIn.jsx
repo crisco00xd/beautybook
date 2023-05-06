@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
-import { signIn, signOut } from "../queries";
+import { getAccessToken, isAuthenticated, signIn } from "../queries";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -13,10 +15,18 @@ function SignIn() {
 
     const response = await signIn(email, password)
     console.log(response);
-    // response = signOut();
-    // console.log(response);
+    const authenticated = await isAuthenticated();
+    console.log(authenticated.status);
 
 
+
+    if(authenticated.status === 200){
+      alert("User logged in successfully");
+      navigate("/home");
+    }
+    else{
+      alert("Error logging in");
+    }
   };
 
   return (

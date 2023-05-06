@@ -23,18 +23,45 @@ export async function signIn(email, password) {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
     body: JSON.stringify({ email, password }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    localStorage.setItem('access_token', data.access_token);
+  }
+
+  return response;
+}
+
+export async function isAuthenticated() {
+  const accessToken = getAccessToken();
+
+  const response = await fetch(`${API_BASE_URL}/user/is-authenticated`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
   });
 
   return response;
 }
 
+
+export function getAccessToken() {
+  return localStorage.getItem('access_token');
+}
+
 export async function signOut() {
+  const accessToken = getAccessToken();
+  localStorage.removeItem('access_token');
+  
   const response = await fetch(`${API_BASE_URL}/user/sign-out`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
     },
     credentials: 'include',
   });
