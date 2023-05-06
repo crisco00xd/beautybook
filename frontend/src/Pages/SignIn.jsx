@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
+import { signIn, signOut } from "../queries";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // handle login logic here
+
+    const response = await signIn(email, password)
+    console.log(response);
+    response = signOut();
+    console.log(response);
+
+
   };
 
   return (

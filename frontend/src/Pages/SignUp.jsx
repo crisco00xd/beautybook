@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import { createUser } from "../queries";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     // handle sign up logic here
@@ -18,7 +19,7 @@ function Signup() {
 
     const data = {
       name: "test4",
-      phone: "1234567890",
+      phone: "+1234-567-8909",
       roles: "owner", //admin, stylist, owner
       first_name: "Test",
       last_name: "TEST",
@@ -29,6 +30,10 @@ function Signup() {
 
     const response = await createUser(data)
     console.log(response);
+    if (response.ok){
+      alert("User created successfully");
+      navigate("/signin");
+    }
 
   };
 

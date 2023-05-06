@@ -12,6 +12,9 @@ class User(db.Model, UserMixin):
     roles = db.Column(db.String(80), nullable=True)
     is_superuser = db.Column(db.Boolean, default=False)
 
+    def get_id(self):
+        return str(self.userID)
+
 class Appointment(db.Model):
     appointmentID = db.Column(INTEGER(unsigned=True), primary_key=True)
     date = db.Column(db.Date, nullable=False)

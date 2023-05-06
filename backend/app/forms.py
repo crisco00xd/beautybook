@@ -7,6 +7,9 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
+    class Meta:
+        csrf = False
+
     @classmethod
     def from_json(cls, data):
         form = cls()
@@ -19,7 +22,11 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
+    phone = StringField("Phone", validators=[DataRequired()])
     submit = SubmitField("Register")
+
+    class Meta:
+        csrf = False
 
     @classmethod
     def from_json(cls, data):

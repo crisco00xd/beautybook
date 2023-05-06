@@ -2,11 +2,13 @@ from app import app, db
 from app.controllers import appointments, users, notifications, salons, services, stylists
 from app.models import Notification, User, Stylist
 from app.utils import send_notification
-from flask import jsonify, request
+from flask import jsonify, request, session, make_response
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import LoginForm, RegisterForm
 from app.decorators import is_superuser
+from app import login_manager
+
 
 @app.route('/')
 def index():
@@ -306,9 +308,16 @@ def delete_salon(salon_id):
 
     return jsonify({"message": "Salon deleted"})
 
+@login_manager.user_loader
+def load_user(user_id):
+    print(f"Loading user with ID: {user_id}")
+    return User.query.get(int(user_id))
+
+
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
 def sign_in():
+    print(current_user.is_authenticated)
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"})
 
@@ -316,12 +325,17 @@ def sign_in():
     form = LoginForm.from_json(data)
     if form.validate():
         user = User.query.filter_by(email=data['email']).first()
+        print(user)
         if user and check_password_hash(user.password, data['password']):
-            login_user(user)
-            return jsonify({"message": "Logged in successfully"})
+            login_user(user,remember=form.remember_me.data, force=True)
+            print(current_user.is_authenticated)
+            response = make_response("Logged in user: {}".format(user), 200)
+            response.set_cookie('session', session['_id'], samesite='None', secure=True)
+            return response
         else:
             return jsonify({"error": "Invalid email or password"}), 401
     return jsonify({"error": form.errors}), 400
+
 
 # Registration route
 @app.route('/user/register', methods=['POST'])
@@ -333,10 +347,11 @@ def register():
     form = RegisterForm.from_json(data)
     if form.validate():
         hashed_password = generate_password_hash(data['password'])
-        new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'], is_superuser=data.get('is_superuser', False))
+        new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'], phone=data['phone'], is_superuser=data.get('is_superuser', False))
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "User registered successfully"})
+        response = make_response("Registered User", 200)
+        return response
     return jsonify({"error": form.errors}), 400
 
 # Logout route

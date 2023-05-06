@@ -20,6 +20,9 @@ def create_user(data):
     db.session.commit()
     return user
     
+def get_id(self):
+    return str(self.id)
+
 def get_user(user_id):
     return User.query.get(user_id)
 
