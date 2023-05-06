@@ -13,8 +13,8 @@ function SignIn() {
 
     const response = await signIn(email, password)
     console.log(response);
-    response = signOut();
-    console.log(response);
+    // response = signOut();
+    // console.log(response);
 
 
   };

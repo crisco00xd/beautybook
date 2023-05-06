@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
@@ -17,12 +20,11 @@ function Signup() {
       return;
     }
 
-    const data = {
-      name: "test4",
-      phone: "+1234-567-8909",
+    const data = { 
+      phone,
       roles: "owner", //admin, stylist, owner
-      first_name: "Test",
-      last_name: "TEST",
+      first_name,
+      last_name,
       email,
       password,
       is_superuser: false
@@ -30,6 +32,8 @@ function Signup() {
 
     const response = await createUser(data)
     console.log(response);
+
+
     if (response.ok){
       alert("User created successfully");
       navigate("/signin");
@@ -45,43 +49,43 @@ function Signup() {
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Sign up</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="first_name" className="block text-gray-700 font-bold mb-2">
               First Name
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type="first_name"
+              name="first_name"
+              id="first_name"
+              value={first_name}
+              onChange={(event) => setFirstName(event.target.value)}
               className="border-2 border-gray-300 p-2 w-full rounded-md"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="last_name" className="block text-gray-700 font-bold mb-2">
               Last Name
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type="last_name"
+              name="last_name"
+              id="last_name"
+              value={last_name}
+              onChange={(event) => setLastName(event.target.value)}
               className="border-2 border-gray-300 p-2 w-full rounded-md"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="phone" className="block text-gray-700 font-bold mb-2">
               Phone Number
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type="phone"
+              name="phone"
+              id="phone"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
               className="border-2 border-gray-300 p-2 w-full rounded-md"
               required
             />
