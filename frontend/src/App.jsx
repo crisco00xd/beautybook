@@ -1,6 +1,6 @@
 import styles from "./style";
 import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "./components";
-import { Home, Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook } from "./Pages"
+import { Home, Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook, ServicesEdit } from "./Pages"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -8,21 +8,36 @@ import {
 	Route,
 	Routes
 } from 'react-router-dom';
+import Salons from "./Pages/Salons";
 
 const App = () => (
 	<div>
 		<Router>
 			<Routes> 
+
+				<Route path="/" element={<BeautyBook/>}/> {/* Landing page route */}
+				<Route path="/salons" element={<Salons/>}/> {/* Landing page route */}
+
+				{/* Routes for sign in / sign up pages */}
+				<Route path="/signin" element={<SignIn/>}/>
+				<Route path="/signup" element={<SignUp/>}/>
+
+				{/* Routes for owner user perspective */}
 				<Route path="/home" element={<Home/>}/>
 				<Route path="/appointments" element={<Appointments/>}/>
 				<Route path="/salon" element={<Salon/>}/>
 				<Route path="/salonstylistsedit" element={<StylistsEdit/>}/>
 				<Route path="/salonedit" element={<SalonEdit/>}/>
-				<Route path="/signin" element={<SignIn/>}/>
-				<Route path="/signup" element={<SignUp/>}/>
 				<Route path="/statistics" element={<Statistics/>}/>
-				<Route path="/" element={<BeautyBook/>}/>
+				
+
+				{/* Routes for stylist user perspective */}
 				<Route path="/stylistsedit" element={<StylistsEdit/>}/>
+				<Route path="/homestylist" element={<HomeStylist/>}/>
+				<Route path="/appointmentsstylist" element={<AppointmentsStylits/>}/>
+				<Route path="/servicesedit" element={<ServicesEdit/>}/>
+				<Route path="/statisticsstylist" element={<StatisticsStylist/>}/>
+
 			</Routes>
 		</Router>
 	</div>

@@ -11,6 +11,7 @@ import StylistsEdit from './owner/StylistsEdit'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import BeautyBook from './BeautyBook';
+import ServicesEdit from './Stylist/ServicesEdit'
 
 export {
   Home,
@@ -26,5 +27,5 @@ export {
   SignIn,
   SignUp,
   BeautyBook,
-  
+  ServicesEdit,
 };

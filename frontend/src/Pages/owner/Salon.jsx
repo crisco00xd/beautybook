@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "../../style.js";
-import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "../../components";
+import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarOwner, ViewAppointments } from "../../components";
 import { mySalonPic } from '../../assets/index.js';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const Salon = () => (
       
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
-          <NavbarStylist />
+          <NavbarOwner />
           </div>
       </div>
 

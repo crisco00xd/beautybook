@@ -38,7 +38,7 @@ export const navLinksBB = [
   },
 ];
 
-export const navLinksStylist = [
+export const navLinksOwner = [
   {
     id: "/",
     title: "Home",
@@ -61,6 +61,28 @@ export const navLinksStylist = [
   },
 ];
 
+export const navLinksStylist = [
+  {
+    id: "/",
+    title: "Home",
+  },
+  {
+    id: "appointments",
+    title: "Appointments",
+  },
+  {
+    id: "statisticsstylist",
+    title: "Satistics",
+  },
+  {
+    id: "servicesedit",
+    title: "Stylist",
+  },
+  {
+    id: "signin",
+    title: "Sign In",
+  },
+];
 
 export const stats = [
   {

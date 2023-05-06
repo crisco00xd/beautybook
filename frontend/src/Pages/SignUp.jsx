@@ -41,6 +41,48 @@ function Signup() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+              First Name
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="border-2 border-gray-300 p-2 w-full rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+              Last Name
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="border-2 border-gray-300 p-2 w-full rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+              Phone Number
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="border-2 border-gray-300 p-2 w-full rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
               Email
             </label>
             <input

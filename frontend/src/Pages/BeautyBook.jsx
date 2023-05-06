@@ -27,7 +27,7 @@ const BeautyBook = () => (
 
         </div>
 
-        <div className="flex">
+        <div className="flex" id="about-us-section">
             <p className="font-poppins text-black text-xl font-semibold scale-75 sm:text-center">
             Beauty Book is the ultimate online booking platform for beauty salons! Our website offers a simple and easy-to-use interface for salons to manage their appointments and for clients to book their next beauty treatment.
             On Beauty Book, salons can create their own profiles, set their availability, and list their services and prices. Clients can then search for salons in their area and book appointments directly through the website. 
