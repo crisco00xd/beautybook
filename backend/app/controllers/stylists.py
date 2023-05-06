@@ -3,8 +3,8 @@ from app.models import Stylist
 
 def create_stylist(data):
     #Checks if stylist already exists
-    if stylist_exist(data['stylistID']):
-        return None
+    # if stylist_exist(data['stylistID']):
+    #     return None
     
     stylist = Stylist(
         salonID = data['salonID'],

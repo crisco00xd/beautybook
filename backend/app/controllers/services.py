@@ -4,8 +4,8 @@ from app.models import Service
 
 def create_service(data):
     #Checks if service already exists
-    if service_exist(data['serviceID']):
-        return None
+    # if service_exist(data['serviceID']):
+    #     return None
     
     service = Service(
         name = data['name'],
