@@ -301,12 +301,19 @@ export const deleteNotification = async (notificationId) => {
 
 // Salon
 export const createSalon = async (data) => {
-    const response = await fetch(`${API_BASE_URL}/salons`, {
+    try{
+      const response = await fetch(`${API_BASE_URL}/salons`, {
         method: 'POST',
-        headers: HEADERS,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
-    });
-    return await response.json();
+      });
+      return response;
+    }
+    catch(error){
+        console.log(error);
+    };
 };
 
 export const getSalon = async (salonId) => {

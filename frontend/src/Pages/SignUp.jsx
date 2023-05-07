@@ -13,6 +13,7 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [salon, setSalonName] = useState("");
   const navigate = useNavigate();
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     // handle sign up logic here
