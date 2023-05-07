@@ -108,6 +108,16 @@ def delete_appointment(appointment_id):
 
     return jsonify({"message": "Appointment deleted"})
 
+# get stylist appointment
+@app.route('/appointments/stylist/<int:stylist_id>', methods=['GET'])
+def get_appointment_stylist(stylist_id):
+    deleted = appointments.get_appointment_stylist(stylist_id)
+    if not deleted:
+        return jsonify({"error": "Appointment not found"}), 404
+
+    return deleted
+
+
 # Stylist approves or rejects appointment
 @app.route('/appointments/<int:appointment_id>/status', methods=['PUT'])
 def update_appointment_status(appointment_id):
@@ -133,7 +143,7 @@ def get_busy_times():
 @app.route('/services', methods=['POST'])
 def create_service():
     data = request.get_json()
-    service = services.create_user(data)
+    service = services.create_service(data)
     
     if not service:
         return jsonify({"error": "Service already exist"}), 400
@@ -143,7 +153,7 @@ def create_service():
 # Get an service by ID
 @app.route('/services/<int:service_id>', methods=['GET'])
 def get_service(service_id):
-    service = services.get_user(service_id)
+    service = services.get_service(service_id)
     if not service:
         return jsonify({"error": "User not found"}), 404
 

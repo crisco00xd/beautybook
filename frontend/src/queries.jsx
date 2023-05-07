@@ -34,6 +34,17 @@ export async function signIn(email, password) {
   return response;
 }
 
+export async function getStylistAppointment(stylistId) {
+  const response = await fetch(`${API_BASE_URL}/appointments/stylist/${stylistId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response;
+}
+
 export async function isAuthenticated() {
   const accessToken = getAccessToken();
 
