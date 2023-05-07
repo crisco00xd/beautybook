@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
-import { getAccessToken, isAuthenticated, signIn } from "../queries";
+import { getAccessToken, isAuthenticated, signIn, getStylistAppointment } from "../queries";
 import { useNavigate } from "react-router-dom";
 
 function SignIn() {
@@ -15,8 +15,10 @@ function SignIn() {
 
     const response = await signIn(email, password)
     console.log(response);
+    const appointment = await getStylistAppointment(1);
+    console.log(appointment);
     const authenticated = await isAuthenticated();
-    console.log(authenticated.status);
+    console.log(authenticated);
 
 
 

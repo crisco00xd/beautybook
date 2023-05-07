@@ -8,7 +8,7 @@ def create_service(data):
     #     return None
     
     service = Service(
-        name = data['name'],
+        serviceName = data['name'],
         cost = data['cost'],
         description = data['description'],
         duration = data['duration']
