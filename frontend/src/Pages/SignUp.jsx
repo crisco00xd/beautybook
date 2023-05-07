@@ -12,6 +12,7 @@ function Signup() {
   const [phone, setPhone] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     // handle sign up logic here

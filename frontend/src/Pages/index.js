@@ -12,6 +12,7 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import BeautyBook from './BeautyBook';
 import ServicesEdit from './Stylist/ServicesEdit'
+import SalonCreate from './SalonCreate'
 
 export {
   Home,
@@ -28,4 +29,5 @@ export {
   SignUp,
   BeautyBook,
   ServicesEdit,
+  SalonCreate,
 };

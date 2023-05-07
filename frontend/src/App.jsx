@@ -1,6 +1,6 @@
 import styles from "./style";
 import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "./components";
-import { Home, Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook, ServicesEdit } from "./Pages"
+import { Home, Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook, ServicesEdit, SalonCreate } from "./Pages"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -17,6 +17,7 @@ const App = () => (
 
 				<Route path="/" element={<BeautyBook/>}/> {/* Landing page route */}
 				<Route path="/salons" element={<Salons/>}/> {/* Landing page route */}
+				<Route path="/saloncreate" element={<SalonCreate/>}/> {/* Salon Creation Page route */}
 
 				{/* Routes for sign in / sign up pages */}
 				<Route path="/signin" element={<SignIn/>}/>
