@@ -3,20 +3,25 @@ from app.models import Appointment
 from datetime import datetime
 from datetime import timedelta
 from app.models import Service
+from datetime import datetime, timezone
 
 def create_appointment(data):
-    # Check if the proposed time conflicts with existing appointments
     service = Service.query.get(data['serviceID'])
-    if is_stylist_busy(data['stylistID'], data['date'], data['time'], service.duration):
+    if not service:
+        return None
+
+    proposed_datetime = data['datetime']
+
+    if is_stylist_busy(data['stylistID'], proposed_datetime, service.duration):
         return None
 
     appointment = Appointment(
-        date=data['date'],
-        time=data['time'],
+        datetime=proposed_datetime,
         serviceID=data['serviceID'],
         stylistID=data['stylistID'],
         status='pending'
     )
+
     db.session.add(appointment)
     db.session.commit()
     return appointment
@@ -49,35 +54,31 @@ def delete_appointment(appointment_id):
     return False
 
 def get_busy_times():
-    appointments = get_all_appointments()
     busy_times = []
+    appointments = Appointment.query.all()
+
     for appointment in appointments:
-        utc_start_time = appointment.time
-        duration = appointment.service.duration
-        utc_end_time = (datetime.combine(appointment.date, appointment.time) + duration).time()
-        busy_times.append({
-            'date': appointment.date,
-            'start_time': utc_start_time,
-            'end_time': utc_end_time
-        })
+        local_start_time = appointment.datetime
+        local_end_time = local_start_time + appointment.service.duration
+
+        busy_times.append((local_start_time, local_end_time))
+
     return busy_times
 
-def is_stylist_busy(stylist_id, proposed_date, proposed_time, service_duration):
+
+def is_stylist_busy(stylist_id, proposed_datetime, service_duration):
     busy_times = get_busy_times()
-    proposed_start = datetime.combine(proposed_date, proposed_time)
-    proposed_end = proposed_start + service_duration
+    duration_minutes = service_duration.total_seconds() / 60
+    proposed_end = proposed_datetime + timedelta(minutes=duration_minutes)
 
-    for busy_time in busy_times:
-        busy_date = busy_time['date']
-        busy_start = datetime.combine(busy_date, busy_time['start_time'])
-        busy_end = datetime.combine(busy_date, busy_time['end_time'])
-
-        if stylist_id == busy_time['stylistID'] and proposed_date == busy_date:
-            if (proposed_start >= busy_start and proposed_start < busy_end) or \
+    for busy_start, busy_end in busy_times:
+        if stylist_id == busy_start['stylistID'] and proposed_datetime.date() == busy_start.date():
+            if (proposed_datetime >= busy_start and proposed_datetime < busy_end) or \
                (proposed_end > busy_start and proposed_end <= busy_end) or \
-               (proposed_start <= busy_start and proposed_end >= busy_end):
+               (proposed_datetime <= busy_start and proposed_end >= busy_end):
                 return True
     return False
+
 
 def get_appointment_stylist(stylist_id):
     appointment = Appointment.query.all()
