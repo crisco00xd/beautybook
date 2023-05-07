@@ -285,7 +285,7 @@ def create_salon():
     
     return jsonify({"message": "Salon created"}), 201
 
-# Get an salon by ID ////////////////////////////////////////////
+# Get an salon by ID 
 @app.route('/salons/<int:salon_id>', methods=['GET'])
 def get_salon(salon_id):
     salon = salons.get_salon(salon_id)
@@ -294,7 +294,7 @@ def get_salon(salon_id):
 
     return jsonify(salon.serialize())
 
-# Get all salons ////////////////////////////////////////////
+# Get all salons
 @app.route('/salons', methods=['GET'])
 def get_all_salons():
     salons_list = salons.get_all_salon()
