@@ -1,5 +1,6 @@
 from app import db
-from app.models import Stylist
+from app.models import Stylist, Salon
+from app.controllers import salons
 
 def create_stylist(data):
     #Checks if stylist already exists
@@ -22,6 +23,21 @@ def get_stylist(stylist_id):
 
 def get_all_stylist():
     return Stylist.query.all()
+
+def get_all_stylist_by_owner(owner_id):
+    salonss = salons.get_all_salon()
+    stylists = get_all_stylist()
+    result = []
+
+    for stylist in stylists:
+        if(stylist.userID == owner_id):
+            stylist_owner_ID = stylist
+
+    for salon in salonss:
+        for stylist in stylists:
+            if salon.salonID == stylist_owner_ID.salonID and stylist.salonID == salon.salonID:
+                result.append(stylist)
+    return result
 
 def update_stylist(stylist_id, data):
     stylist = Stylist.query.get(stylist_id)
