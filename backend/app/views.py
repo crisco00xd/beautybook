@@ -210,6 +210,22 @@ def get_all_stylists():
     stylists_list = stylists.get_all_stylist()
     return jsonify([stylist.serialize() for stylist in stylists_list])
 
+# Get all stylists by owner
+@app.route('/stylists/owner', methods=['GET'])
+@jwt_required()
+def get_all_stylist_by_owner():
+    owner_id = get_jwt_identity()
+    stylists_list = stylists.get_all_stylist_by_owner(owner_id)
+    return jsonify([stylist.serialize() for stylist in stylists_list])
+
+# Get all salons by owner
+@app.route('/salons/owner', methods=['GET'])
+@jwt_required()
+def get_all_salon_by_owner():
+    owner_id = get_jwt_identity()
+    salons_list = salons.get_all_salons_by_owner(owner_id)
+    return jsonify([salon.serialize() for salon in salons_list])
+
 # Update stylist
 @app.route('/stylists/<int:stylist_id>', methods=['PUT'])
 def update_stylist(stylist_id):

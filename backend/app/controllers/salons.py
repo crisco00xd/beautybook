@@ -1,5 +1,6 @@
 from app import db
 from app.models import Salon
+from app.controllers import stylists, salons
 
 def create_salon(data):
     #Checks if salon already exists
@@ -49,3 +50,18 @@ def salon_exist(salon_id):
         if salon.salonID == salon_id:
             return True
     return False
+
+def get_all_salons_by_owner(owner_id):
+    salonss = salons.get_all_salon()
+    all_stylist = stylists.get_all_stylist()
+    result = []
+
+    for stylist in all_stylist:
+        if(stylist.userID == owner_id):
+            stylist_owner_ID = stylist
+
+    for salon in salonss:
+        if salon.salonID == stylist_owner_ID.salonID:
+            result.append(salon)
+            
+    return result

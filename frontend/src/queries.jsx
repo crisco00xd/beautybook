@@ -42,7 +42,7 @@ export async function getStylistAppointment(stylistId) {
     },
   });
 
-  return response;
+  return response.json();
 }
 
 export async function isAuthenticated() {
@@ -56,7 +56,37 @@ export async function isAuthenticated() {
     },
   });
 
-  return response;
+  return response.json();
+}
+
+
+export async function get_all_stylist_by_owner() {
+  const accessToken = getAccessToken();
+
+  const response = await fetch(`${API_BASE_URL}/stylists/owner`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.json();
+}
+
+
+export async function get_all_salon_by_owner() {
+  const accessToken = getAccessToken();
+
+  const response = await fetch(`${API_BASE_URL}/salons/owner`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.json();
 }
 
 
@@ -77,7 +107,7 @@ export async function signOut() {
     credentials: 'include',
   });
 
-  return response;
+  return response.json();
 }
 
 export async function getUserById(userId) {
