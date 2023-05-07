@@ -1,6 +1,6 @@
 from app import app, db
 from app.controllers import appointments, users, notifications, salons, services, stylists
-from app.models import Notification, User, Stylist
+from app.models import Notification, User, Stylist, Salon, Service, Appointment
 from app.utils import send_notification
 from flask import jsonify, request, session, make_response
 from flask_login import login_required, login_user, logout_user, current_user
@@ -357,10 +357,20 @@ def register():
         hashed_password = generate_password_hash(data['password'])
         new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'], phone=data['phone'], is_superuser=data.get('is_superuser', False))
         db.session.add(new_user)
+        db.session.flush()  # Flush the session to generate the new_user.userID
+
+        # Create a new salon and add it to the session
+        new_salon = Salon(salon_name=data['salon_name'], description=data.get('description', ''), startTime=data['startTime'], closeTime=data['closeTime'])
+        db.session.add(new_salon)
+        db.session.flush()  # Flush the session to generate the new_salon.salonID
+
+        new_stylist = Stylist(userID=new_user.userID, salonID=new_salon.salonID, admin=data['admin'])
+        db.session.add(new_stylist)
         db.session.commit()
         response = make_response("Registered User", 200)
         return response
     return jsonify({"error": form.errors}), 400
+
 
 # Logout route
 @app.route('/user/sign-out', methods=['GET'])

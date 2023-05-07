@@ -11,6 +11,7 @@ function Signup() {
   const [last_name, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [salon, setSalonName] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,8 +28,13 @@ function Signup() {
       last_name,
       email,
       password,
-      is_superuser: false
+      salon_name: salon,
+      is_superuser: false,
+      admin: true,
+      startTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
+      closeTime: new Date(new Date().getTime() + 4*60*60*1000).toLocaleTimeString('en-US', { hour12: false }),
     };
+    
 
     const response = await createUser(data)
     console.log(response);
@@ -128,6 +134,20 @@ function Signup() {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
+              className="border-2 border-gray-300 p-2 w-full rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="salon" className="block text-gray-700 font-bold mb-2">
+              Salon
+            </label>
+            <input
+              type="salon"
+              name="salon"
+              id="salon"
+              value={salon}
+              onChange={(event) => setSalonName(event.target.value)}
               className="border-2 border-gray-300 p-2 w-full rounded-md"
               required
             />

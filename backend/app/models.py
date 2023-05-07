@@ -29,7 +29,7 @@ class Service(db.Model):
     serviceName = db.Column(db.String(255), nullable=False)
     cost = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=True)
-    duration = db.Column(db.Interval, nullable=False)
+    duration = db.Column(db.Time, nullable=False)
 
 stylist_services = db.Table('stylist_services',
     db.Column('stylistID', INTEGER(unsigned=True), db.ForeignKey('stylist.stylistID'), primary_key=True),
