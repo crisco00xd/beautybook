@@ -58,8 +58,9 @@ class Service(db.Model):
             'serviceName': self.serviceName,
             'cost': self.cost,
             'description': self.description,
-            'duration': self.duration.isoformat()
+            'duration': str(self.duration.total_seconds() / 60) + 'm' 
         }
+
 
 stylist_services = db.Table('stylist_services',
     db.Column('stylistID', INTEGER(unsigned=True), db.ForeignKey('stylist.stylistID'), primary_key=True),
