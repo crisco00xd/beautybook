@@ -12,7 +12,7 @@ const SalonCreate = () => {
   const salonOwner = get_all_salon_by_owner();
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate;
   const [description, setDescription] = useState("");
 
   const handleImageChange = (e) => {
@@ -30,8 +30,23 @@ const SalonCreate = () => {
   };
 
   const handleTest = async (event) => {
+    event.preventDefault();
+
+    const data = { 
+      description,
+    };
+
     const salon_byOwner = await get_all_salon_by_owner();
+    const test = await updateSalon(salon_byOwner[0].salonID, data);
     console.log(salon_byOwner);
+    console.log(test);
+
+    if(test.message === "Salon updated") {
+      navigate("/beautybook")
+    }
+    else {
+      alert("An error has ocurred")
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -40,19 +55,6 @@ const SalonCreate = () => {
     const data = { 
         description,
     };
-
-    await handleTest();
-    // const response = updateSalon(salonOwner[0].salonID,data)
-    // console.log(response);
-
-
-    // if (response.ok){
-    //   alert("Salon created successfully");
-    //   navigate("/home");
-    // }
-    // else{
-    //   alert("Error creating salon");
-    // }
 
   };
 
@@ -91,7 +93,7 @@ const SalonCreate = () => {
 
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
         <div className="bg-white flex flex-col items-center">
 
@@ -191,7 +193,8 @@ const SalonCreate = () => {
                 
                 </div>
 
-                <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8">
+                <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8"
+                onClick={handleTest}>
 
                     <div className="font-poppins text-white font-medium text-sm uppercase">
                         Create Salon
