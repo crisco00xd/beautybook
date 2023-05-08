@@ -46,7 +46,7 @@ const BeautyBook = () => (
 
             <div className="flex justify-center mt-8 sm:scale-100 scale-75">
 
-                <Link to="/saloncreate" className='h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'>
+                <Link to="/home" className='h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'>
                 </Link>
 
                 <div className="h-72 w-72 bg-black ml-4 hover:bg-gray-400">

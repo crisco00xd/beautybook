@@ -1,6 +1,7 @@
 import styles from "./style";
 import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarStylist, ViewAppointments } from "./components";
-import { Home, Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook, ServicesEdit, SalonCreate } from "./Pages"
+import { Appointments, HomeOwner, Salon, Statistics, AppointmentsStylits, HomeStylist, StatisticsStylist, SignIn, SignUp, SalonEdit, StylistsEdit, BeautyBook, ServicesEdit, SalonCreate } from "./Pages"
+import { Home } from "./Pages"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -23,8 +24,10 @@ const App = () => (
 				<Route path="/signin" element={<SignIn/>}/>
 				<Route path="/signup" element={<SignUp/>}/>
 
-				{/* Routes for owner user perspective */}
 				<Route path="/home" element={<Home/>}/>
+
+				{/* Routes for owner user perspective */}
+				<Route path="/home@" element={<HomeOwner/>}/>
 				<Route path="/appointments" element={<Appointments/>}/>
 				<Route path="/salon" element={<Salon/>}/>
 				<Route path="/salonstylistsedit" element={<StylistsEdit/>}/>
@@ -34,7 +37,7 @@ const App = () => (
 
 				{/* Routes for stylist user perspective */}
 				<Route path="/stylistsedit" element={<StylistsEdit/>}/>
-				<Route path="/homestylist" element={<HomeStylist/>}/>
+				<Route path="/home&" element={<HomeStylist/>}/>
 				<Route path="/appointmentsstylist" element={<AppointmentsStylits/>}/>
 				<Route path="/servicesedit" element={<ServicesEdit/>}/>
 				<Route path="/statisticsstylist" element={<StatisticsStylist/>}/>

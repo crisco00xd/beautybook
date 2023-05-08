@@ -1,11 +1,30 @@
 import { useState } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksOwner} from '../constants';
+import { signOut } from '../queries';
+import { useNavigate } from "react-router-dom";
 
 const NavbarOwner = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
   const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
+  const navigate = useNavigate();
+
+  const handleSignOut = async (event) => {
+    event.preventDefault();
+    // handle login logic here
+
+    const response = await signOut()
+    console.log(response);
+
+    if(response.status === 200){
+      alert("User signed out successfully");
+    }
+    else{
+      alert("Error Signing Out in");
+      navigate("/signin")
+    }
+  };
 
   return (
     // sets layout style for navbar section (using tailwind)
@@ -79,24 +98,23 @@ const NavbarOwner = () => {
 
         </div>
 
-      <ul className = 'list-none sm:flex hidden justify-end items-center flex-1'>
-        {navLinksOwner.map((nav, index) => (
+        <ul className='list-none sm:flex hidden justify-end items-center flex-1'>
+          {navLinksOwner.map((nav, index) => (
           <li
-            key = {nav.id}
-            className = {`font-poppins font.normal cursor-pointer text-[16px]} 
-            ${index === navLinks.length - 1? 'mr-0' : 'mr-10'} text-white mr-10 `}
-          
-          > 
+            key={nav.id}
+            className={`font-poppins font.normal cursor-pointer text-[16px]} 
+            ${index === navLinks.length - 1 ? 'mr-0' : 'mr-10'} text-white mr-10 `}
+          >
 
-            <a href = {` ${nav.id}`}>
-               {nav.title}
-               </a>
-   
+          {nav.title === 'Sign Out' ? (
+            <button onClick={handleSignOut}>{nav.title}</button>
+          ) : (
+          <a href={`${nav.id}`}>{nav.title}</a>
+          )}
           </li>
-
-        ))}
-
+          ))}
       </ul>
+
 
       
       <div className = "sm:hidden flex flex-1 justify-end items-center"> 
@@ -122,9 +140,12 @@ const NavbarOwner = () => {
               
               > 
 
-                <a href = {` ${nav.id}`}>
-                  {nav.title}
-                  </a>
+                {nav.title === 'Sign Out' ? (
+                <button onClick={handleSignOut}>{nav.title}</button>
+                ) : (
+                <a href={`${nav.id}`}>{nav.title}</a>
+                )}
+
               </li>
 
             ))}

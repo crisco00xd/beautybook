@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "tailwindcss/tailwind.css";
 import { getAccessToken, isAuthenticated, signIn, getStylistAppointment, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from 'react-router-dom';
+
+let authenticated = false;
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -17,18 +18,16 @@ function SignIn() {
     console.log(response);
     // const appointment = await getStylistAppointment(1);
     // console.log(appointment);
-    const authenticated = await isAuthenticated();
+    authenticated = await isAuthenticated();
     console.log(authenticated);
-    const stylist_byOwner = await get_all_stylist_by_owner();
-    console.log(stylist_byOwner);
-    const salon_byOwner = await get_all_salon_by_owner();
-    console.log(salon_byOwner);
-
-
+    // const stylist_byOwner = await get_all_stylist_by_owner();
+    // console.log(stylist_byOwner);
+    // const salon_byOwner = await get_all_salon_by_owner();
+    // console.log(salon_byOwner);
 
     if(response.status === 200){
       alert("User logged in successfully");
-      navigate("/home");
+      navigate("/saloncreate");
     }
     else{
       alert("Error logging in");
@@ -87,3 +86,4 @@ function SignIn() {
 }
 
 export default SignIn;
+export { authenticated };

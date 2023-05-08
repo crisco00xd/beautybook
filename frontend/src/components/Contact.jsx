@@ -1,6 +1,11 @@
 import styles from "../style";
 
 const Contact = () => {
+
+  var startTime = "[Hours Here]"
+  var phoneNumber = "(xxx) xxx-xxxx"
+  var email = "xxxxx@xxxx.com"
+
   return (
     <div id="home" className={`flex md:flex-row flex-col sm:py-16 py-6 items-start`}>
       <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
@@ -13,11 +18,11 @@ const Contact = () => {
         </div>
 
         <p className={`${styles.paragraph} max-w-[470px] mt- text-stone-800`}>
-          {'(xxx) xxx-xxxx'}
+          {phoneNumber}
           </p>
 
         <p className={`${styles.paragraph} max-w-[470px] mt- text-stone-800`}>
-         {'xxxxxx@xxxx.com'}
+         {email}
         </p>
             
       </div>
@@ -32,7 +37,7 @@ const Contact = () => {
         </div>
 
         <p className={`${styles.paragraph} max-w-[470px] mt- text-stone-800`}>
-          Monday - Friday: {'[HOURS HERE]'}
+          Monday - Friday: {startTime}
           </p>
             
       </div>

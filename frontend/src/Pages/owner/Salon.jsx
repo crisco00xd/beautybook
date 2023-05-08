@@ -4,7 +4,11 @@ import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarOwner, View
 import { mySalonPic } from '../../assets/index.js';
 import { Link } from 'react-router-dom';
 
-const Salon = () => (
+const Salon = () => {
+
+  var salonName = "[Salon Name Here]"
+
+  return (
     
     <div className="bg-primary w-full overflow-hidden">
       
@@ -19,7 +23,7 @@ const Salon = () => (
             className = 'mt-10 mb-8 ml-14 sm:w-[552px] sm:h-[552px] w-[150px] h-[150px]' />
 
               <div className="sm:pt-20 sm:pl-10 sm:mt-40 ml-10 flex-1 font-poppins font-semibold sm:text-[72px] text-[30px] text-stone-800 sm:leading-[100.8px]">
-                SALON NAME HERE
+                {salonName}
               </div>
 
       </div>
@@ -45,5 +49,6 @@ const Salon = () => (
 
     </div>
   )
+}
 
 export default Salon

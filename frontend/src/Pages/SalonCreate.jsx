@@ -2,13 +2,15 @@ import { NavbarStylist } from ".././components"
 import styles from ".././style"
 import { useState } from 'react';
 import { Footer } from ".././components";
-import { createSalon } from "../queries";
+import { createSalon, updateSalon } from "../queries";
 import { useNavigate } from "react-router-dom";
+import { authenticated } from "./SignIn";
 
 const SalonCreate = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
+  const [description, setDescription] = useState("");
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -24,25 +26,23 @@ const SalonCreate = () => {
     }
   };
 
-  const [about, setAbout] = useState("");
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = { 
-        salon_name: "Test",
-        description: "Test Again",
-        startTime: "8:00:00",
-        closeTime: "8:00:00"
+        description,
     };
 
-    const response = await createSalon(data)
+    const response = await updateSalon(authenticated,data)
     console.log(response);
 
 
-    if (!response.ok){
+    if (response.ok){
       alert("Salon created successfully");
       navigate("/home");
+    }
+    else{
+      alert("Error creating salon");
     }
 
   };
@@ -136,8 +136,8 @@ const SalonCreate = () => {
                 type="about"
                 name="about"
                 id="about"
-                value={about}
-                onChange={(event) => setAbout(event.target.value)}
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
                 className="border-2 border-black p-2 h-32 w-96 ml-2 mt-8 sm:scale-100 scale-75"
                 required
             />

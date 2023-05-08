@@ -2,20 +2,12 @@ import {  facebook, instagram, linkedin, twitter } from "../assets";
 
 export const navLinks = [
   {
-    id: "home",
-    title: "Home",
-  },
-  {
     id: "appointments",
     title: "Appointments",
   },
   {
-    id: "statistics",
-    title: "Statistics",
-  },
-  {
-    id: "mySalon",
-    title: "Salon",
+    id: "signin",
+    title: "Sign In",
   },
 ];
 
@@ -56,8 +48,8 @@ export const navLinksOwner = [
     title: "Salon",
   },
   {
-    id: "signin",
-    title: "Sign In",
+    id: "home",
+    title: "Sign Out",
   },
 ];
 
@@ -79,8 +71,8 @@ export const navLinksStylist = [
     title: "Stylist",
   },
   {
-    id: "signin",
-    title: "Sign In",
+    id: "home",
+    title: "Sign Out",
   },
 ];
 
