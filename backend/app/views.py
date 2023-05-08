@@ -139,6 +139,13 @@ def get_busy_times():
     busy_times = appointments.get_busy_times()
     return jsonify(busy_times)
 
+# Get all appointments of a stylist with a specific status
+@app.route('/stylists/<int:stylist_id>/appointments/status/<string:status>', methods=['GET'])
+def get_appointments_of_stylist_by_status_route(stylist_id, status):
+    appointments = stylists.get_appointments_of_stylist_by_status(stylist_id, status)
+    serialized_appointments = [appointment.serialize() for appointment in appointments]
+    return jsonify(serialized_appointments)
+
 # Create a new service
 @app.route('/services', methods=['POST'])
 def create_service():

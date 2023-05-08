@@ -1,5 +1,5 @@
 from app import db
-from app.models import Stylist, Salon
+from app.models import Stylist, Salon, Appointment
 from app.controllers import salons
 
 def create_stylist(data):
@@ -65,3 +65,7 @@ def stylist_exist(stylist_id):
         if stylist.stylistID == stylist_id:
             return True
     return False
+
+def get_appointments_of_stylist_by_status(stylist_id, status):
+    appointments = Appointment.query.filter_by(stylistID=stylist_id, status=status).all()
+    return appointments
