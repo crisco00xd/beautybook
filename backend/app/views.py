@@ -70,7 +70,7 @@ def create_appointment():
         return jsonify({"error": "The stylist is not available at the requested time"}), 400
 
     # Send notification to the stylist
-    send_notification(data['userID'], data['stylistID'], 'New appointment request')
+    send_notification(data['stylistID'], 'New appointment request')
 
     return jsonify({"message": "Appointment request sent"}), 201
 

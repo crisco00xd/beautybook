@@ -61,7 +61,7 @@ def get_busy_times():
         local_start_time = appointment.datetime
         local_end_time = local_start_time + appointment.service.duration
 
-        busy_times.append((local_start_time, local_end_time))
+        busy_times.append((appointment.stylistID, local_start_time, local_end_time))  # Include the stylist ID
 
     return busy_times
 
@@ -69,15 +69,17 @@ def get_busy_times():
 def is_stylist_busy(stylist_id, proposed_datetime, service_duration):
     busy_times = get_busy_times()
     duration_minutes = service_duration.total_seconds() / 60
+    proposed_datetime = datetime.strptime(proposed_datetime, '%Y-%m-%dT%H:%M:%S')
     proposed_end = proposed_datetime + timedelta(minutes=duration_minutes)
 
-    for busy_start, busy_end in busy_times:
-        if stylist_id == busy_start['stylistID'] and proposed_datetime.date() == busy_start.date():
+    for busy_stylist_id, busy_start, busy_end in busy_times:  # Update the loop variable
+        if stylist_id == busy_stylist_id and proposed_datetime.date() == busy_start.date():
             if (proposed_datetime >= busy_start and proposed_datetime < busy_end) or \
                (proposed_end > busy_start and proposed_end <= busy_end) or \
                (proposed_datetime <= busy_start and proposed_end >= busy_end):
                 return True
     return False
+
 
 
 def get_appointment_stylist(stylist_id):
