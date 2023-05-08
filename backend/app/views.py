@@ -139,6 +139,12 @@ def get_busy_times():
     busy_times = appointments.get_busy_times()
     return jsonify(busy_times)
 
+@app.route('/users/<int:user_id>/is-owner', methods=['GET'])
+def is_owner_route(user_id):
+    result = is_owner_by_user_id(user_id)
+    return jsonify({"is_owner": result})
+
+
 # Get all appointments of a stylist with a specific status
 @app.route('/stylists/<int:stylist_id>/appointments/status/<string:status>', methods=['GET'])
 def get_appointments_of_stylist_by_status_route(stylist_id, status):
