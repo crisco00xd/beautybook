@@ -19,6 +19,7 @@ const NavbarOwner = () => {
 
     if(response.status === 200){
       alert("User signed out successfully");
+      navigate("/beautybook")
     }
     else{
       alert("Error Signing Out in");
