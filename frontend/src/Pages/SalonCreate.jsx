@@ -2,17 +2,16 @@ import { NavbarOwner } from ".././components"
 import styles from ".././style"
 import { useState } from 'react';
 import { Footer } from ".././components";
-import { createSalon, updateSalon } from "../queries";
+import { updateSalon } from "../queries";
 import { useNavigate } from "react-router-dom";
-import { authenticated } from "./SignIn";
 import { get_all_salon_by_owner } from "../queries";
 
 const SalonCreate = () => {
 
-  const salonOwner = get_all_salon_by_owner();
+  
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [description, setDescription] = useState("");
 
   const handleImageChange = (e) => {
@@ -35,7 +34,6 @@ const SalonCreate = () => {
     const data = { 
       description,
     };
-
     const salon_byOwner = await get_all_salon_by_owner();
     const test = await updateSalon(salon_byOwner[0].salonID, data);
     console.log(salon_byOwner);
