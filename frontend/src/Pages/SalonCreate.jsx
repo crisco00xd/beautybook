@@ -30,9 +30,9 @@ const SalonCreate = () => {
   };
 
   const handleTest = async (event) => {
-    const salonOwner = get_all_salon_by_owner();
-    console.log(salonOwner)
-  }
+    const salon_byOwner = await get_all_salon_by_owner();
+    console.log(salon_byOwner);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
