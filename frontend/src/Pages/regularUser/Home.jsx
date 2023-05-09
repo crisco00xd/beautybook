@@ -1,13 +1,14 @@
 import React from 'react'
 import styles from "../../style.js";
-import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, ViewAppointments, NavbarOwner } from "../../components";
+import { Footer, Navbar, Contact, ViewAppointments } from "../../components";
+import SalonInfo from "./SalonInfo.jsx"
 
 const Home = () => {
   return (
     <div className="bg-primary w-full overflow-hidden">
         <div className={`${styles.paddingX} ${styles.flexCenter}`}>
 			<div className={`${styles.boxWidth}`}>
-				<NavbarOwner />
+				<Navbar />
 			</div>
 		</div>
 

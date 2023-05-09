@@ -130,7 +130,7 @@ export async function signOut() {
     credentials: 'include',
   });
 
-  return response.json();
+  return response;
 }
 
 export async function getUserById(userId) {
@@ -324,19 +324,14 @@ export const deleteNotification = async (notificationId) => {
 
 // Salon
 export const createSalon = async (data) => {
-    try{
-      const response = await fetch(`${API_BASE_URL}/salons`, {
+    const response = await fetch(`${API_BASE_URL}/salons`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      });
-      return response;
-    }
-    catch(error){
-        console.log(error);
-    };
+    });
+    return await response.json();
 };
 
 export const getSalon = async (salonId) => {
@@ -352,7 +347,9 @@ export const getAllSalons = async () => {
 export const updateSalon = async (salonId, data) => {
     const response = await fetch(`${API_BASE_URL}/salons/${salonId}`, {
         method: 'PUT',
-        headers: HEADERS,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
     return await response.json();

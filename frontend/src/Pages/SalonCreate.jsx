@@ -1,14 +1,18 @@
-import { NavbarStylist } from ".././components"
+import { NavbarOwner } from ".././components"
 import styles from ".././style"
 import { useState } from 'react';
 import { Footer } from ".././components";
-import { createSalon } from "../queries";
+import { updateSalon } from "../queries";
 import { useNavigate } from "react-router-dom";
+import { get_all_salon_by_owner } from "../queries";
+
+let idTest = false;
 
 const SalonCreate = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
+  const [description, setDescription] = useState("");
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -24,26 +28,32 @@ const SalonCreate = () => {
     }
   };
 
-  const [about, setAbout] = useState("");
+  const handleTest = async (event) => {
+    event.preventDefault();
+
+    const data = { 
+      description,
+    };
+    const salon_byOwner = await get_all_salon_by_owner();
+    const test = await updateSalon(salon_byOwner[0].salonID, data);
+    idTest = salon_byOwner[0];
+    console.log(salon_byOwner);
+    console.log(test);
+
+    if(test.message === "Salon updated") {
+      navigate("/home@")
+    }
+    else {
+      alert("An error has ocurred")
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = { 
-        salon_name: "Test",
-        description: "Test Again",
-        startTime: "8:00:00",
-        closeTime: "8:00:00"
+        description,
     };
-
-    const response = await createSalon(data)
-    console.log(response);
-
-
-    if (!response.ok){
-      alert("Salon created successfully");
-      navigate("/home");
-    }
 
   };
 
@@ -53,7 +63,7 @@ const SalonCreate = () => {
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
 
         <div className={`${styles.boxWidth}`}>
-          <NavbarStylist />
+          <NavbarOwner />
         </div>
 
       </div>
@@ -82,7 +92,7 @@ const SalonCreate = () => {
 
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
         <div className="bg-white flex flex-col items-center">
 
@@ -136,8 +146,8 @@ const SalonCreate = () => {
                 type="about"
                 name="about"
                 id="about"
-                value={about}
-                onChange={(event) => setAbout(event.target.value)}
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
                 className="border-2 border-black p-2 h-32 w-96 ml-2 mt-8 sm:scale-100 scale-75"
                 required
             />
@@ -182,7 +192,8 @@ const SalonCreate = () => {
                 
                 </div>
 
-                <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8">
+                <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8"
+                onClick={handleTest}>
 
                     <div className="font-poppins text-white font-medium text-sm uppercase">
                         Create Salon
@@ -213,3 +224,4 @@ const SalonCreate = () => {
 }
 
 export default SalonCreate
+export { idTest };

@@ -1,11 +1,28 @@
 import { useState } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksStylist} from '../constants';
+import { signOut } from '../queries';
 
 const NavbarStylist = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
   const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
+
+  const handleSignOut = async (event) => {
+    event.preventDefault();
+    // handle login logic here
+
+    const response = await signOut()
+    console.log(response);
+
+    if(response.status === 200){
+      alert("User signed out successfully");
+      navigate("/saloncreate");
+    }
+    else{
+      alert("Error Siging Out");
+    }
+  };
 
   return (
     // sets layout style for navbar section (using tailwind)
@@ -88,9 +105,11 @@ const NavbarStylist = () => {
           
           > 
 
-            <a href = {` ${nav.id}`}>
-               {nav.title}
-               </a>
+            {nav.title === 'Sign Out' ? (
+            <button onClick={handleSignOut}>{nav.title}</button>
+            ) : (
+            <a href={`${nav.id}`}>{nav.title}</a>
+            )}
    
           </li>
 
@@ -122,9 +141,12 @@ const NavbarStylist = () => {
               
               > 
 
-                <a href = {` ${nav.id}`}>
-                  {nav.title}
-                  </a>
+                {nav.title === 'Sign Out' ? (
+                <button onClick={handleSignOut}>{nav.title}</button>
+                ) : (
+                <a href={`${nav.id}`}>{nav.title}</a>
+                )}
+
               </li>
 
             ))}

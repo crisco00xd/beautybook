@@ -2,26 +2,18 @@ import {  facebook, instagram, linkedin, twitter } from "../assets";
 
 export const navLinks = [
   {
-    id: "home",
-    title: "Home",
-  },
-  {
     id: "appointments",
     title: "Appointments",
   },
   {
-    id: "statistics",
-    title: "Statistics",
-  },
-  {
-    id: "mySalon",
-    title: "Salon",
+    id: "signin",
+    title: "Sign In",
   },
 ];
 
 export const navLinksBB = [
   {
-    id: "home",
+    id: "beautybook",
     title: "Home",
   },
   {
@@ -40,7 +32,7 @@ export const navLinksBB = [
 
 export const navLinksOwner = [
   {
-    id: "/",
+    id: "/home@",
     title: "Home",
   },
   {
@@ -56,14 +48,14 @@ export const navLinksOwner = [
     title: "Salon",
   },
   {
-    id: "signin",
-    title: "Sign In",
+    id: "home",
+    title: "Sign Out",
   },
 ];
 
 export const navLinksStylist = [
   {
-    id: "/",
+    id: "/home&",
     title: "Home",
   },
   {
@@ -79,8 +71,8 @@ export const navLinksStylist = [
     title: "Stylist",
   },
   {
-    id: "signin",
-    title: "Sign In",
+    id: "home",
+    title: "Sign Out",
   },
 ];
 

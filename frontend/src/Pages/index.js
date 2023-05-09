@@ -5,7 +5,7 @@ import Statistics from './owner/Statistics';
 import AppointmentsStylits from './Stylist/AppointmentsStylist'
 import HomeStylist from './Stylist/HomeStylist'
 import StatisticsStylist from './Stylist/StatisticsStylist'
-import Home from './owner/Home'
+import Home from './regularUser/Home'
 import SalonEdit from './owner/SalonEdit'
 import StylistsEdit from './owner/StylistsEdit'
 import SignIn from './SignIn'
