@@ -45,6 +45,29 @@ export async function getStylistAppointment(stylistId) {
   return response.json();
 }
 
+export async function isOwnerByUserId(userId) {
+  const response = await fetch(`${API_BASE_URL}/users/${userId}/is-owner`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.json();
+}
+
+
+export async function getAppointmentsOfStylistByStatus(stylistId, status) {
+  const response = await fetch(`${API_BASE_URL}/stylists/${stylistId}/appointments/status/${status}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.json();
+}
+
 export async function isAuthenticated() {
   const accessToken = getAccessToken();
 
