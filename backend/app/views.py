@@ -111,11 +111,11 @@ def delete_appointment(appointment_id):
 # get stylist appointment
 @app.route('/appointments/stylist/<int:stylist_id>', methods=['GET'])
 def get_appointment_stylist(stylist_id):
-    deleted = appointments.get_appointment_stylist(stylist_id)
-    if not deleted:
+    appointment = appointments.get_stylist_appointments(stylist_id)
+    if not appointment:
         return jsonify({"error": "Appointment not found"}), 404
 
-    return deleted
+    return jsonify(appointment)
 
 
 # Stylist approves or rejects appointment
@@ -141,7 +141,7 @@ def get_busy_times():
 
 @app.route('/users/<int:user_id>/is-owner', methods=['GET'])
 def is_owner_route(user_id):
-    result = is_owner_by_user_id(user_id)
+    result = stylists.is_owner_by_user_id(user_id)
     return jsonify({"is_owner": result})
 
 

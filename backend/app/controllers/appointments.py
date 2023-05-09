@@ -82,17 +82,17 @@ def is_stylist_busy(stylist_id, proposed_datetime, service_duration):
 
 
 
-def get_appointment_stylist(stylist_id):
-    appointment = Appointment.query.all()
+def get_stylist_appointments(stylist_id):
+    appointments = Appointment.query.all()
     result = []
-    print(appointment)
-    for appointment in appointment:
+    if not appointments:
+        return None
+    for appointment in appointments:
         if appointment.stylistID == stylist_id:
             result.append({
-            'date': appointment.date,
-            'time': appointment.time.strftime('%H:%M'),
+            'datetime': appointment.datetime.isoformat(),
             'service': appointment.serviceID,
             'status': appointment.status
         })
-            return result
-    return None
+    return result
+    
