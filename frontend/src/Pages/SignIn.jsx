@@ -27,7 +27,7 @@ function SignIn() {
 
     if(response.status === 200){
       alert("User logged in successfully");
-      navigate("/saloncreate");
+      navigate("/home@");
     }
     else{
       alert("Error logging in");

@@ -3,10 +3,30 @@ import styles from "../../style.js";
 import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarOwner, ViewAppointments } from "../../components";
 import { mySalonPic } from '../../assets/index.js';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { get_all_salon_by_owner } from '../../queries.jsx';
 
 const Salon = () => {
 
-  var salonName = "[Salon Name Here]"
+  const [salonName, setSalonName] = useState("");
+  //const descrpition = "[Sample:] At our beauty salon, we offer a wide range of services including haircuts, coloring, styling, facials, manicures, pedicures, and more. Our talented team of stylists and estheticians are trained in the latest techniques and use only the best products to ensure that you leave looking and feeling your best. Whether you are looking for a complete makeover or just a simple trim, our welcoming and comfortable atmosphere will make your visit a relaxing and enjoyable experience. Our salon is equipped with state-of-the-art equipment and features a modern, chic design that will make you feel like you are in a high-end spa. With flexible scheduling and affordable prices, we strive to make beauty accessible to everyone and help you look and feel your best. Book an appointment today and let us pamper you from head to toe!"
+
+
+  const handleTest = async (event) => {
+
+    const salonInfo = await get_all_salon_by_owner();
+    setSalonName(salonInfo[0].salon_name);
+    console.log(salonInfo);
+
+    // if(test.message === "Salon updated") {
+    //   navigate("/home@")
+    // }
+    // else {
+    //   alert("An error has ocurred")
+    // }
+  };
+
+  handleTest();
 
   return (
     

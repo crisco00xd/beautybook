@@ -6,9 +6,9 @@ import { updateSalon } from "../queries";
 import { useNavigate } from "react-router-dom";
 import { get_all_salon_by_owner } from "../queries";
 
-const SalonCreate = () => {
+let idTest = false;
 
-  
+const SalonCreate = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
@@ -36,11 +36,12 @@ const SalonCreate = () => {
     };
     const salon_byOwner = await get_all_salon_by_owner();
     const test = await updateSalon(salon_byOwner[0].salonID, data);
+    idTest = salon_byOwner[0];
     console.log(salon_byOwner);
     console.log(test);
 
     if(test.message === "Salon updated") {
-      navigate("/beautybook")
+      navigate("/home@")
     }
     else {
       alert("An error has ocurred")
@@ -223,3 +224,4 @@ const SalonCreate = () => {
 }
 
 export default SalonCreate
+export { idTest };

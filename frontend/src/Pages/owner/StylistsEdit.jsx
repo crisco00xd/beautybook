@@ -2,8 +2,7 @@ import { NavbarOwner } from "../../components"
 import styles from "../../style"
 import { useState } from 'react';
 import { Footer } from "../../components";
-import { render } from "react-dom";
-import { useEffect } from "react";
+import { get_all_stylist_by_owner } from "../../queries";
 
 const StylistsEdit = () => {
 
@@ -15,40 +14,18 @@ const StylistsEdit = () => {
   const [password, setPassword] = useState("");
   const [service, setService] = useState("");
 
-  // function ConditionalComponent() {
-  //   const [service, setService] = useState('');
-  
-  //   const handleServiceChange = (event) => {
-  //     setService(event.target.value);
-  //   }
-  
-  //   return (
-  //     <div className="flex items-center ml-4">
-  //       <div className="font-poppins text-black font-semibold sm:text-lg uppercase mt-8">
-  //         service {clickCount}
-  //       </div>
-  
-  //       <input
-  //         type="text"
-  //         name="service"
-  //         id="service"
-  //         value={service}
-  //         onChange={handleServiceChange}
-  //         className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8 w-32 w- sm:w-48"
-  //         required
-  //       />
-  //     </div>
-  //   );
-  // }
-
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
-  const [clickCount, setClickCount] = useState(0);
+ 
+  const handleTest = async (event) => {
+    const salonStylists = await get_all_stylist_by_owner();
+    console.log(salonStylists[0]);
+    console.log(salonStylists.size);
+  };
 
-  useEffect(() => {
-  }, [clickCount]);
+  handleTest();
 
   return (
     <div className="bg-primary w-full overflow-hidden">
@@ -191,39 +168,30 @@ const StylistsEdit = () => {
               {'(add information about your new stylist)'}
             </div>
 
-            <div className="flex flex-col items-start">
+            <div className="flex items-center">
 
-              <button className="flex justify-center"
-                  onClick={() => setClickCount(clickCount + 1)}>
+              <div className="font-poppins text-black font-semibold sm:text-lg uppercase mt-8">
+                service 1
+              </div>
 
-                  <div className="font-poppins text-black font-medium text-sm sm:text-base uppercase ml-4 mt-8">
-                    + Add new service
-                  </div>
+              <input
+              type="service"
+              name="service"
+              id="service"
+              value={service}
+              onChange={(event) => setService(event.target.value)}
+              className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8 w-32 w- sm:w-48"
+              required
+            />
+
+              <button className="flex justify-center">
+
+                <div className="font-poppins text-black font-medium text-sm sm:text-base uppercase ml-4 mt-8">
+                  + Add new service
+                </div>
 
               </button>
 
-              <div className="flex items-center px-4">
-
-                <div className="font-poppins text-black font-semibold sm:text-lg uppercase mt-8">
-                service 1
-                </div>
-
-                <input
-                  type="service"
-                  name="service"
-                  id="service"
-                  value={service}
-                  onChange={(event) => setService(event.target.value)}
-                  className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8 w-32 w- sm:w-48"
-                  required
-                  />
-
-              </div>
-
-              {Array.from({ length: clickCount }).map((_, index) => (
-                <ConditionalComponent key={index} />
-                ))}
-              
             </div>
 
             <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8">
@@ -252,7 +220,5 @@ const StylistsEdit = () => {
   )
 
 }
-
-
 
 export default StylistsEdit

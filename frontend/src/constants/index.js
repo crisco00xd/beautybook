@@ -13,7 +13,7 @@ export const navLinks = [
 
 export const navLinksBB = [
   {
-    id: "home",
+    id: "beautybook",
     title: "Home",
   },
   {
@@ -32,7 +32,7 @@ export const navLinksBB = [
 
 export const navLinksOwner = [
   {
-    id: "/",
+    id: "/home@",
     title: "Home",
   },
   {
@@ -55,7 +55,7 @@ export const navLinksOwner = [
 
 export const navLinksStylist = [
   {
-    id: "/",
+    id: "/home&",
     title: "Home",
   },
   {
