@@ -1,15 +1,23 @@
 import { beautyBookLogo } from "../assets"
 import NavbarBB from "../components/NavbarBB"
 import styles from "../style"
-import { Link } from 'react-router-dom';
 import { getAllSalons, getSalon } from "../queries";
 import React, { useState, useEffect } from "react";
-import AppContext from '.././AppContext';
+import { useNavigate } from "react-router-dom";
 
 const BeautyBook = () => {
 
+    const navigate = useNavigate();
     const [salonName, setSalonName] = useState([]);
     const [array2, setArray2] = useState([]);
+
+    const handleIndex = (index) => {
+
+        console.log(index);
+        sessionStorage.setItem("salonID", index);
+        navigate("/home");
+
+      }
 
     useEffect(() => {
         const handleTest = async () => {
@@ -29,13 +37,8 @@ const BeautyBook = () => {
         handleTest();
       }, []);
 
-      console.log(array2);
-      console.log(salonName);
-
 
     return (
-
-    <AppContext.Provider value={{ array2, setArray2 }}>
 
         <div className="w-full overflow-hidden">
 
@@ -84,11 +87,15 @@ const BeautyBook = () => {
 
                     <div key={array2[index]} className="flex justify-center sm:scale-100 scale-75">
 
-                        <Link to="/home" className='flex items-center justify-center h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'>
+                        <button to="/home" 
+                        className='flex items-center justify-center h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'
+                        onClick={() => {
+                            handleIndex(index)}
+                        }>
                             <div className="font-poppins text-white text-3xl font-bold uppercase">
                                 {name}
                             </div>
-                        </Link>
+                        </button>
 
                     </div>
 
@@ -98,8 +105,7 @@ const BeautyBook = () => {
             </div>
             
         </div>
-
-    </AppContext.Provider>
+        
   )
 }
 export default BeautyBook
