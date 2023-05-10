@@ -19,7 +19,7 @@ def create_appointment(data):
         datetime=proposed_datetime,
         serviceID=data['serviceID'],
         stylistID=data['stylistID'],
-        status='pending'
+        status=data['status']
     )
 
     db.session.add(appointment)
