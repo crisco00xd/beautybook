@@ -16,6 +16,66 @@ export async function createUser(data) {
       console.log(error);
   };
 }
+// uploadImage.js
+export async function uploadImage(file, filename) {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('filename', filename);
+
+    const response = await fetch(`${API_BASE_URL}/upload-image`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`An error occurred: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// updateImage.js
+export async function updateImage(file, filename) {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('filename', filename);
+
+    const response = await fetch(`${API_BASE_URL}/update-image`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`An error occurred: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// getImage.js
+export async function getImage(filename) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/get-image/${filename}`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error(`An error occurred: ${response.statusText}`);
+    }
+
+    return await response.blob();
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export async function signIn(email, password) {
   const response = await fetch(`${API_BASE_URL}/user/sign-in`, {

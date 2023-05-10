@@ -1,13 +1,14 @@
 from app import app, db
-from app.controllers import appointments, users, notifications, salons, services, stylists
+from app.controllers import appointments, users, notifications, salons, services, stylists, uploadImage
 from app.models import Notification, User, Stylist, Salon, Service, Appointment
 from app.utils import send_notification
-from flask import jsonify, request, session, make_response
+from flask import jsonify, request, session, make_response, send_from_directory
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import LoginForm, RegisterForm
 from app.decorators import is_superuser
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
+
 
 
 
@@ -423,6 +424,43 @@ def admin_dashboard():
 
     # Your admin dashboard implementation here
     return jsonify({"message": "Welcome to the admin dashboard"})
+
+@app.route('/upload-image', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({"error": "No image in the request"}), 400
+
+    image = request.files['image']
+    filename = request.form.get('filename')
+
+    if not filename:
+        return jsonify({"error": "No filename provided"}), 400
+
+    filepath = uploadImage.save_image(image, filename)
+    return jsonify({"success": True, "message": "Image uploaded successfully", "filepath": filepath})
+
+@app.route('/update-image', methods=['POST'])
+def update_image():
+    if 'image' not in request.files:
+        return jsonify({"error": "No image in the request"}), 400
+
+    image = request.files['image']
+    filename = request.form.get('filename')
+
+    if not filename:
+        return jsonify({"error": "No filename provided"}), 400
+
+    filepath = uploadImage.save_image(image, filename)
+    return jsonify({"success": True, "message": "Image updated successfully", "filepath": filepath})
+
+
+@app.route('/get-image/<string:filename>', methods=['GET'])
+def get_image(filename):
+    try:
+        return send_from_directory('../assets', filename)
+    except FileNotFoundError:
+        return jsonify({"error": "File not found"}), 404
+
 
 
 
