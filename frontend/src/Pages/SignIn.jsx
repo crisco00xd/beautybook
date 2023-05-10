@@ -1,7 +1,7 @@
-import {isOwnerByUserId ,getAccessToken, isAuthenticated, signIn, getStylistAppointment, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
+import {isOwnerByUserId ,getAccessToken, isAuthenticated, signIn, getAllUsers, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 let authenticated = false;
 
