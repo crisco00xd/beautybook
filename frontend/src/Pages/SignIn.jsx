@@ -18,6 +18,15 @@ function SignIn() {
     console.log(response);
     // const appointment = await getStylistAppointment(1);
     // console.log(appointment);
+
+    const users = await getAllUsers();
+    const userId = users.filter(users => users.email === email)[0].userID;
+
+    authenticated = await isAuthenticated();
+    if (authenticated) {
+      sessionStorage.setItem("id", userId);
+    }
+
     authenticated = await isAuthenticated();
     const isOwner = await isOwnerByUserId(authenticated.userID);
     console.log(isOwner);
