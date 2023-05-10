@@ -353,7 +353,7 @@ def delete_salon(salon_id):
 @jwt_required()
 def is_authenticated():
     current_user_id = get_jwt_identity()
-    return jsonify({"message": f"User with id {current_user_id} is authenticated"}), 200
+    return jsonify({"userID": f"{current_user_id}"}), 200
 
 # Login route
 @app.route('/user/sign-in', methods=['POST'])
