@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import Salons from "./Pages/Salons";
 import EditUser from "./Pages/owner/EditUser";
+import Calendar from "./Pages/owner/Calendar"
 
 const App = () => (
 	<div>
@@ -35,6 +36,7 @@ const App = () => (
 				<Route path="/salonedit" element={<SalonEdit/>}/>
 				<Route path="/statistics" element={<Statistics/>}/>
 				<Route path="/edituser" element={<EditUser/>}/>
+				<Route path="/calendar" element={<Calendar/>}/>
 				
 
 				{/* Routes for stylist user perspective */}
