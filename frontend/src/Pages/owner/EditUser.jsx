@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import { useNavigate } from "react-router-dom";
-import { updateUser, isAuthenticated } from "../../queries";
+import { updateUser } from "../../queries";
+import { isAuthenticated } from "../../queries";
 
-function ServicesEdit() {
+function EditUser() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +31,7 @@ function ServicesEdit() {
       email,
       password,
       is_superuser: false,
-      admin: false,
+      admin: true,
     };
     
     const userID = await isAuthenticated();
@@ -42,7 +43,7 @@ function ServicesEdit() {
     
     if(response.message === 'User updated'){
       alert("User updated successfully");
-      navigate("/home&");
+      navigate("/salon");
     }
   };
 
@@ -158,4 +159,4 @@ function ServicesEdit() {
   );
 }
 
-export default ServicesEdit;
+export default EditUser;

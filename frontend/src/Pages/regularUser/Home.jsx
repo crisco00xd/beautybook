@@ -24,11 +24,11 @@ const Home = () => {
 			</div>
 		</div>
 
-		<div className={`bg-white ${styles.flexStart}`}>
+		{/* <div className={`bg-white ${styles.flexStart}`}>
 			<div className={`${styles.boxWidth}`}>
 				<Contact />
 			</div>
-		</div>
+		</div> */}
 
 		<div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
 			<div className={`${styles.boxWidth}`}>

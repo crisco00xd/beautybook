@@ -95,7 +95,7 @@ function Signup() {
     
     if(response.status === 200){
       alert("User created successfully");
-      navigate("/signin");
+      navigate("/saloncreate");
     }
   };
 

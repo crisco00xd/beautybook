@@ -2,11 +2,13 @@ import { useState } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksStylist} from '../constants';
 import { signOut } from '../queries';
+import { useNavigate } from "react-router-dom";
 
 const NavbarStylist = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
   const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
+  const navigate = useNavigate();
 
   const handleSignOut = async (event) => {
     event.preventDefault();
@@ -17,7 +19,7 @@ const NavbarStylist = () => {
 
     if(response.status === 200){
       alert("User signed out successfully");
-      navigate("/saloncreate");
+      navigate("/");
     }
     else{
       alert("Error Siging Out");
