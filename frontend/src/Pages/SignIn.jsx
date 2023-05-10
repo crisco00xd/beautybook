@@ -1,4 +1,4 @@
-import { getAccessToken, isAuthenticated, signIn, getStylistAppointment, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
+import {isOwnerByUserId ,getAccessToken, isAuthenticated, signIn, getStylistAppointment, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
@@ -19,15 +19,21 @@ function SignIn() {
     // const appointment = await getStylistAppointment(1);
     // console.log(appointment);
     authenticated = await isAuthenticated();
-    console.log(authenticated);
+    const isOwner = await isOwnerByUserId(authenticated.userID);
+    console.log(isOwner);
+    console.log(authenticated.userID);
     // const stylist_byOwner = await get_all_stylist_by_owner();
     // console.log(stylist_byOwner);
     // const salon_byOwner = await get_all_salon_by_owner();
     // console.log(salon_byOwner);
 
-    if(response.status === 200){
+    if(response.status === 200 && isOwner.is_owner === true){
       alert("User logged in successfully");
       navigate("/home@");
+    }
+    else if(response.status === 200 && isOwner.is_owner === false) {
+      alert("User logged in successfully");
+      navigate("/home&");
     }
     else{
       alert("Error logging in");

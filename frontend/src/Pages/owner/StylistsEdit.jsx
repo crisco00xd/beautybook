@@ -2,30 +2,70 @@ import { NavbarOwner } from "../../components"
 import styles from "../../style"
 import { useState } from 'react';
 import { Footer } from "../../components";
-import { get_all_stylist_by_owner } from "../../queries";
+import { get_all_stylist_by_owner, createUser, get_all_salon_by_owner, getUserById } from "../../queries";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const StylistsEdit = () => {
 
+  const [array2, setArray2] = useState([]);
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile device
-
-  const [stylistName, setStylistName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [service, setService] = useState("");
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
  
-  const handleTest = async (event) => {
-    const salonStylists = await get_all_stylist_by_owner();
-    console.log(salonStylists[0]);
-    console.log(salonStylists.size);
-  };
+  useEffect(() => {
+    const handleTest = async () => {
+      const salonStylists = await get_all_stylist_by_owner();
+      const array = await Promise.all(salonStylists.map(async (stylist) => {
+        const user = await getUserById(stylist.userID);
+        return user.first_name;
+      }));
+      setArray2(array);
+    }
+    handleTest();
+  }, []);
 
-  handleTest();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // handle sign up logic here
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const salonInfo = await get_all_salon_by_owner();
+
+    const data = { 
+      phone,
+      roles: "stylist", //admin, stylist, owner
+      first_name,
+      last_name,
+      email,
+      password,
+      is_superuser: false,
+      admin: false,
+      salonID: salonInfo[0].salonID
+    };
+    
+    const response = await createUser(data);
+
+    console.log(response);
+
+    
+    if(response.status === 200){
+      alert("User created successfully");
+      navigate("/salon");
+    }
+    else{
+      alert("Error creating user");
+    }
+  };
 
   return (
     <div className="bg-primary w-full overflow-hidden">
@@ -60,8 +100,13 @@ const StylistsEdit = () => {
             stylists:
           </div>
 
-          <div className='font-poppins text-black font-semibold text-lg uppercase mt-4'>
-            {'[stylist name here]'}
+          <div className="flex flex-col text-black items-center"> 
+          
+            {array2.map((name, index) => (
+              <div key={index} className="p-1 mt-2 font-poppins text-lg font-semibold border-4 border-black w-28 text-center">
+                {name}
+              </div>
+            ))}
           </div>
 
           <button className='font-poppins text-black font-semibold text-sm uppercase mt-4'
@@ -89,18 +134,36 @@ const StylistsEdit = () => {
             <div className="flex items-center">
 
               <div className="font-poppins text-black font-semibold text-lg uppercase mt-8">
-                name
+                first name
               </div>
 
               <input
               type="stylistName"
               name="stylistName"
               id="stylistName"
-              value={stylistName}
-              onChange={(event) => setStylistName(event.target.value)}
+              value={first_name}
+              onChange={(event) => setFirstName(event.target.value)}
               className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8"
               required
             />
+
+            </div>
+
+            <div className="flex items-center">
+
+              <div className="font-poppins text-black font-semibold text-lg uppercase mt-8">
+                last name
+              </div>
+
+              <input
+              type="stylistName"
+              name="stylistName"
+              id="stylistName"
+              value={last_name}
+              onChange={(event) => setLastName(event.target.value)}
+              className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8"
+              required
+              />
 
             </div>
 
@@ -160,6 +223,25 @@ const StylistsEdit = () => {
 
             </div>
 
+            <div className="flex items-center">
+
+            <div className="font-poppins text-black font-semibold text-lg uppercase mt-8">
+              confirm password
+            </div>
+
+            <input
+            type="confirmpassword"
+            name="confirmpassword"
+            id="confirmpassword"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+            className="border-2 border-gray-300 p-2 rounded-md h-6 ml-2 mt-8"
+            required
+            />
+
+
+            </div>
+
             <div className='font-poppins text-black font-semibold text-4xl sm:text-5xl uppercase mt-20'>
               services
             </div>
@@ -194,7 +276,8 @@ const StylistsEdit = () => {
 
             </div>
 
-            <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8">
+            <button className="flex justify-center items-center bg-black h-10 w-32 mt-8 mb-8"
+            onClick={handleSubmit}>
 
                 <div className="font-poppins text-white font-medium text-xl uppercase">
                   Add Stylist

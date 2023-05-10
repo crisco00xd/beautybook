@@ -10,13 +10,14 @@ import {
 	Routes
 } from 'react-router-dom';
 import Salons from "./Pages/Salons";
+import EditUser from "./Pages/owner/EditUser";
 
 const App = () => (
 	<div>
 		<Router>
 			<Routes> 
 
-				<Route path="/beautybook" element={<BeautyBook/>}/> {/* Landing page route */}
+				<Route path="/" element={<BeautyBook/>}/> {/* Landing page route */}
 				<Route path="/salons" element={<Salons/>}/> {/* Landing page route */}
 				<Route path="/saloncreate" element={<SalonCreate/>}/> {/* Salon Creation Page route */}
 
@@ -33,6 +34,7 @@ const App = () => (
 				<Route path="/salonstylistsedit" element={<StylistsEdit/>}/>
 				<Route path="/salonedit" element={<SalonEdit/>}/>
 				<Route path="/statistics" element={<Statistics/>}/>
+				<Route path="/edituser" element={<EditUser/>}/>
 				
 
 				{/* Routes for stylist user perspective */}

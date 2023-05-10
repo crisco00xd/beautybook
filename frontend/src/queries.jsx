@@ -254,7 +254,9 @@ export async function updateService(serviceId, data) {
 export const createStylist = async (data) => {
     const response = await fetch(`${API_BASE_URL}/stylists`, {
         method: 'POST',
-        headers: HEADERS,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
     return await response.json();

@@ -2,9 +2,42 @@ import { beautyBookLogo } from "../assets"
 import NavbarBB from "../components/NavbarBB"
 import styles from "../style"
 import { Link } from 'react-router-dom';
+import { getAllSalons, getSalon } from "../queries";
+import React, { useState, useEffect } from "react";
+import AppContext from '.././AppContext';
 
-const BeautyBook = () => (
-    <div className="w-full overflow-hidden">
+const BeautyBook = () => {
+
+    const [salonName, setSalonName] = useState([]);
+    const [array2, setArray2] = useState([]);
+
+    useEffect(() => {
+        const handleTest = async () => {
+          const allSalons = await getAllSalons();
+          const salons = await Promise.all(allSalons.map(async (salon) => {
+            const user = await getSalon(salon.salonID);
+            return user.salonID;
+          }));
+          setArray2(salons);
+
+          const names = await Promise.all(allSalons.map(async (salon) => {
+            const user = await getSalon(salon.salonID);
+            return user.salon_name;
+          }));
+          setSalonName(names);
+        }
+        handleTest();
+      }, []);
+
+      console.log(array2);
+      console.log(salonName);
+
+
+    return (
+
+    <AppContext.Provider value={{ array2, setArray2 }}>
+
+        <div className="w-full overflow-hidden">
 
         <div className={`${styles.paddingX} ${styles.flexCenter} bg-black`}>
             <div className={`${styles.boxWidth}`}>
@@ -46,18 +79,27 @@ const BeautyBook = () => (
 
             <div className="flex justify-center mt-8 sm:scale-100 scale-75">
 
-                <Link to="/home" className='h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'>
-                </Link>
+                <div className="grid grid-cols-3 gap-4">
+                    {salonName.map((name, index) => (
 
-                <div className="h-72 w-72 bg-black ml-4 hover:bg-gray-400">
-                </div>
+                    <div key={array2[index]} className="flex justify-center sm:scale-100 scale-75">
 
-                <div className="h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400">
+                        <Link to="/home" className='flex items-center justify-center h-72 w-72 bg-black ml-4 mb-8 hover:bg-gray-400'>
+                            <div className="font-poppins text-white text-3xl font-bold uppercase">
+                                {name}
+                            </div>
+                        </Link>
+
+                    </div>
+
+                    ))}
                 </div>
 
             </div>
             
-    </div>
-  )
+        </div>
 
+    </AppContext.Provider>
+  )
+}
 export default BeautyBook
