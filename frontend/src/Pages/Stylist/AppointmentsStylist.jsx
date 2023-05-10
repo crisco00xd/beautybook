@@ -7,7 +7,7 @@ import styles from "../../style.js";
 import { Footer, NavbarOwner} from "../../components";
 import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById } from "../../queries.jsx";
 
-function Calendar() {
+function Appointment() {
   const [events, setEvents] = useState([]);
 
   //displays events
