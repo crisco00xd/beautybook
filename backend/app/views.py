@@ -396,12 +396,20 @@ def register():
             db.session.add(new_salon)
             db.session.flush()  # Flush the session to generate the new_salon.salonID
 
-        new_stylist = Stylist(userID=new_user.userID, salonID=new_salon.salonID, admin=data['admin'])
-        db.session.add(new_stylist)
-        db.session.commit()
-        access_token = create_access_token(identity=new_user.userID)
-        response = jsonify({"access_token": access_token})
-        return response, 200
+            new_stylist = Stylist(userID=new_user.userID, salonID=new_salon.salonID, admin=data['admin'])
+            db.session.add(new_stylist)
+            db.session.commit()
+            access_token = create_access_token(identity=new_user.userID)
+            response = jsonify({"access_token": access_token})
+            return response, 200
+        else:
+            new_stylist = Stylist(userID=new_user.userID, salonID=data['salonID'], admin=data['admin'])
+            db.session.add(new_stylist)
+            db.session.commit()
+            access_token = create_access_token(identity=new_user.userID)
+            response = jsonify({"access_token": access_token})
+            return response, 200
+        
     return jsonify({"error": form.errors}), 400
 
 
