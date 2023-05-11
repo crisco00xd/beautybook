@@ -20,6 +20,10 @@ function Calendar() {
 
         const appointments = await getStylistAppointment(stylistId)
        
+        if (appointments.error === "Appointment not found"){
+          return;
+        }
+        
         const formattedAppointments = await Promise.all(
           appointments
             .filter(appointment => appointment.status !== "finished")
@@ -125,8 +129,6 @@ function Calendar() {
         status: "pending"
       };
 
-      console.log("data", data)
-
       const response = await fetch(`${API_BASE_URL}/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -136,7 +138,6 @@ function Calendar() {
       const appointment = await getAllAppointments()
 
       const service = await getServiceById(appointment[appointment.length - 1].serviceID)
-      console.log("appointment", appointment[appointment.length - 1])
       
       const newAppointment = {
         id: appointment[appointment.length - 1].appointmentID,
