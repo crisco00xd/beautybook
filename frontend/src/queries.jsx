@@ -10,6 +10,11 @@ export async function createUser(data) {
       },
       body: JSON.stringify(data),
     });
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('access_token', data.access_token);
+    }
     return response;
   }
   catch(error){

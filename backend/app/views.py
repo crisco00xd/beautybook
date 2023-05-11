@@ -380,6 +380,7 @@ def sign_in():
 def register():
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"})
+    
 
     data = request.get_json()
     form = RegisterForm.from_json(data)
@@ -388,17 +389,19 @@ def register():
         new_user = User(email=data['email'], password=hashed_password, first_name=data['first_name'], last_name=data['last_name'], phone=data['phone'], is_superuser=data.get('is_superuser', False))
         db.session.add(new_user)
         db.session.flush()  # Flush the session to generate the new_user.userID
-
-        # Create a new salon and add it to the session
-        new_salon = Salon(salon_name=data['salon_name'], description=data.get('description', ''), startTime=data['startTime'], closeTime=data['closeTime'])
-        db.session.add(new_salon)
-        db.session.flush()  # Flush the session to generate the new_salon.salonID
+        
+        if data['admin'] == True:
+            # Create a new salon and add it to the session
+            new_salon = Salon(salon_name=data['salon_name'], description=data.get('description', ''), startTime=data['startTime'], closeTime=data['closeTime'])
+            db.session.add(new_salon)
+            db.session.flush()  # Flush the session to generate the new_salon.salonID
 
         new_stylist = Stylist(userID=new_user.userID, salonID=new_salon.salonID, admin=data['admin'])
         db.session.add(new_stylist)
         db.session.commit()
-        response = make_response("Registered User", 200)
-        return response
+        access_token = create_access_token(identity=new_user.userID)
+        response = jsonify({"access_token": access_token})
+        return response, 200
     return jsonify({"error": form.errors}), 400
 
 
