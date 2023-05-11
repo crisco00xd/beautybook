@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
-import { Footer, NavbarOwner} from "../../components";
+import { Footer, Navbar} from "../../components";
 import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, isOwnerByUserId } from "../../queries.jsx";
 
 function Calendar() {
@@ -150,71 +150,6 @@ function Calendar() {
       console.error(error);
     }
   };
-  
-  //remove events
-  const handleEventRemove = async (info) => {
-    const { start } = info.event;
-    const appointmentId = info.event.id;
-    const appointment = await getAppointmentById(appointmentId);
-    const userId = parseInt(sessionStorage.getItem('id'));
-    const isOwner = await isOwnerByUserId(userId);
-    
-    if (isOwner) {
-      window.alert("You cannot cancel or remove appointments that are not yours.");
-      return;
-    }
-
-    if (appointment.status === "pending"){
-        window.alert("If you want to remove a pending appointment you have to do it via notifications");
-        return;
-    }
-
-    const answer = window.confirm("Do you want to finish or cancel the appointment? \n\nPress OK to Finish or Cancel to Cancel");
-      
-    if (answer) {
-      const isconfirmed = window.confirm("Are you sure you want to finish the appointment?");
-      if (isconfirmed) {
-        try {
-          const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "finished" }), // set the new status here
-          });
-        } catch (error) {
-          console.error(error);
-        }
-      } else { return; }
-      
-    } else {
-        const isconfirmed = window.confirm("Are you sure you want to cancel the appointment?");
-        if (isconfirmed) {
-          try {
-            const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ status: "cancelled" }), // set the new status here
-            });
-          } catch (error) {
-            console.error(error);
-          }
-        } else { return; }
-    }
-
-    const date = new Date('9999-12-31T00:00:00');
-    const responseTime = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ datetime: date.toISOString().replace(/\.000Z$/, '') }),
-    });
-    
-    setEvents(prevState => {
-      const filteredEvents = prevState.filter(event => {
-        return !(event.start.getTime() === start.getTime());
-      });
-      return filteredEvents;
-    });
-
-  };
 
   function eventContent(eventInfo) {
     const status = eventInfo.event.extendedProps.status;
@@ -246,7 +181,7 @@ function Calendar() {
     <div className="bg-primary w-full overflow-hidden">
     <div className={`${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
-          <NavbarOwner />
+          <Navbar />
           </div>
     </div>
     </div>
@@ -259,7 +194,6 @@ function Calendar() {
       select={handleSelect}
       selectable={"true"}
       dayMaxEvents={"true"}
-      eventClick={handleEventRemove}
       validRange={{ start: new Date() }}
       eventContent={eventContent}
       />
