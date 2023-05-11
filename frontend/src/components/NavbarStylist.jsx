@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksStylist} from '../constants';
-import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus, get_all_salon_by_owner, signOut } from '../queries';
+import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus, get_all_salon_by_owner } from '../queries';
 import {API_BASE_URL} from '../config';
 import { useNavigate } from "react-router-dom";
 
