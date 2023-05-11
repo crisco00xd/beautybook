@@ -5,26 +5,25 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
-import { Footer, NavbarStylist} from "../../components";
-import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, getAllStylists, getAllNotifications } from "../../queries.jsx";
+import { Footer, Navbar} from "../../components";
+import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, isOwnerByUserId } from "../../queries.jsx";
 
-function Appointment() {
+function Calendar() {
   const [events, setEvents] = useState([]);
 
   //displays events
   useEffect(() => {
     async function fetchAppointments() {
       try {
-        const userId = parseInt(sessionStorage.getItem('id'));
-        const stylists = await getAllStylists();
-        const stylist = stylists.filter (stylist => stylist.userID === userId)[0].stylistID;
+        const searchParams = new URLSearchParams(location.search);
+        const stylistId = parseInt(searchParams.get('stylistId'));
 
-        const appointments = await getStylistAppointment(stylist)
+        const appointments = await getStylistAppointment(stylistId)
        
         if (appointments.error === "Appointment not found"){
           return;
         }
-
+        
         const formattedAppointments = await Promise.all(
           appointments
             .filter(appointment => appointment.status !== "finished")
@@ -49,9 +48,8 @@ function Appointment() {
   //adds events and appointments
   const handleSelect = async (info) => {
     const { start } = info;
-    const userId = parseInt(sessionStorage.getItem('id'));
-    const stylists = await getAllStylists();
-    const stylistId = stylists.filter (stylist => stylist.userID === userId)[0].stylistID;
+    const searchParams = new URLSearchParams(location.search);
+    const stylistId = parseInt(searchParams.get('stylistId'))
     const services = await getAllServices()
     const stylist = await getStylist(stylistId)
     const salon = await getSalon(stylist.salonID)
@@ -128,7 +126,7 @@ function Appointment() {
         datetime: date,
         serviceID: selectedService.serviceID,
         stylistID: stylistId,
-        status: "accepted"
+        status: "pending"
       };
 
       const response = await fetch(`${API_BASE_URL}/appointments`, {
@@ -137,85 +135,21 @@ function Appointment() {
         body: JSON.stringify(data),
       });
 
-      const notification = await getAllNotifications();
-      const responseNotification =await fetch(`${API_BASE_URL}/notifications/${notification[notification.length - 1].notificationID}`, {
-        method : 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: "Accepted" })
-      });
+      const appointment = await getAllAppointments()
 
-      const appointment = await getAllAppointments();
       const service = await getServiceById(appointment[appointment.length - 1].serviceID)
       
       const newAppointment = {
         id: appointment[appointment.length - 1].appointmentID,
         title: service.serviceName,
         start: newDate,
-        status: "accepted",
+        status: "pending",
       };
       setEvents([...events, newAppointment]);
 
     } catch (error) {
       console.error(error);
     }
-  };
-  
-  //remove events
-  const handleEventRemove = async (info) => {
-    const { start } = info.event;
-    const appointmentId = info.event.id;
-    const appointment = await getAppointmentById(appointmentId);
-
-    if (appointment.status === "pending"){
-        window.alert("If you want to remove a pending appointment you have to do it via notifications");
-        return;
-    }
-
-    const answer = window.confirm("Do you want to finish or cancel the appointment? \n\nPress OK to Finish or Cancel to Cancel");
-      
-    if (answer) {
-      const isconfirmed = window.confirm("Are you sure you want to finish the appointment?");
-      if (isconfirmed) {
-        try {
-          const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "finished" }), // set the new status here
-          });
-        } catch (error) {
-          console.error(error);
-        }
-      } else { return; }
-      
-    } else {
-        const isconfirmed = window.confirm("Are you sure you want to cancel the appointment?");
-        if (isconfirmed) {
-          try {
-            const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ status: "cancelled" }), // set the new status here
-            });
-          } catch (error) {
-            console.error(error);
-          }
-        } else { return; }
-    }
-
-    const date = new Date('9999-12-31T00:00:00');
-    const responseTime = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ datetime: date.toISOString().replace(/\.000Z$/, '') }),
-    });
-    
-    setEvents(prevState => {
-      const filteredEvents = prevState.filter(event => {
-        return !(event.start.getTime() === start.getTime());
-      });
-      return filteredEvents;
-    });
-
   };
 
   function eventContent(eventInfo) {
@@ -248,7 +182,7 @@ function Appointment() {
     <div className="bg-primary w-full overflow-hidden">
     <div className={`${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
-          <NavbarStylist />
+          <Navbar />
           </div>
     </div>
     </div>
@@ -261,7 +195,6 @@ function Appointment() {
       select={handleSelect}
       selectable={"true"}
       dayMaxEvents={"true"}
-      eventClick={handleEventRemove}
       validRange={{ start: new Date() }}
       eventContent={eventContent}
       />
@@ -279,4 +212,4 @@ function Appointment() {
   );
 }
 
-export default Appointment;
+export default Calendar;

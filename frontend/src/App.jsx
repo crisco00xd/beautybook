@@ -11,6 +11,9 @@ import {
 } from 'react-router-dom';
 import Salons from "./Pages/Salons";
 import EditUser from "./Pages/owner/EditUser";
+import Calendar from "./Pages/owner/Calendar";
+import UserCalendar from "./Pages/regularUser/UserCalendar";
+import UserAppointments from "./Pages/regularUser/UserAppointments"
 
 const App = () => (
 	<div>
@@ -26,7 +29,9 @@ const App = () => (
 				<Route path="/signup" element={<SignUp/>}/>
 
 				<Route path="/home" element={<Home/>}/>
-
+				<Route path="/usercalendar" element={<UserCalendar/>}/>
+				<Route path="/userappointments" element={<UserAppointments/>}/>
+				
 				{/* Routes for owner user perspective */}
 				<Route path="/home@" element={<HomeOwner/>}/>
 				<Route path="/appointments" element={<Appointments/>}/>
@@ -35,6 +40,7 @@ const App = () => (
 				<Route path="/salonedit" element={<SalonEdit/>}/>
 				<Route path="/statistics" element={<Statistics/>}/>
 				<Route path="/edituser" element={<EditUser/>}/>
+				<Route path="/calendar" element={<Calendar/>}/>
 				
 
 				{/* Routes for stylist user perspective */}

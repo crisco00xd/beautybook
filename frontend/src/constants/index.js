@@ -2,7 +2,7 @@ import {  facebook, instagram, linkedin, twitter } from "../assets";
 
 export const navLinks = [
   {
-    id: "appointments",
+    id: "userappointments",
     title: "Appointments",
   },
   {
@@ -59,7 +59,7 @@ export const navLinksStylist = [
     title: "Home",
   },
   {
-    id: "appointments",
+    id: "appointmentsstylist",
     title: "Appointments",
   },
   {

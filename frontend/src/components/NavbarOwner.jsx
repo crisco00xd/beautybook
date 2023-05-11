@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksOwner} from '../constants';
-import { signOut, get_all_salon_by_owner } from '../queries';
+import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus, get_all_salon_by_owner } from '../queries';
 import { useNavigate } from "react-router-dom";
+import {API_BASE_URL} from '../config';
 
 const NavbarOwner = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
   const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
   const navigate = useNavigate();
+  
+
+  const [allNotifications, setAllNotifcations] = useState([]);
+  const [allAppointments, setAllAppointments] = useState([]);
   const [salonName, setSalonName] = useState("");
 
   const handleTest = async (event) => {
@@ -29,13 +34,83 @@ const NavbarOwner = () => {
 
     if(response.status === 200){
       alert("User signed out successfully");
-      navigate("/")
+      navigate("/beautybook")
     }
     else{
       alert("Error Signing Out in");
       navigate("/signin")
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userId = parseInt(sessionStorage.getItem('id'));
+        const stylists = await getAllStylists();
+        const stylistId = stylists.filter(stylists => stylists.userID === userId)[0].stylistID;
+
+        const notifications = await getAllNotifications();
+        const appointments = await getAllAppointments();
+ 
+        const myNotifications = notifications.filter(notifications => notifications.userID === userId && notifications.message === "New appointment request");
+        const myAppointments = appointments.filter(appointments => appointments.stylistID === stylistId && appointments.status === "pending");
+
+        setAllNotifcations(myNotifications);
+        setAllAppointments(myAppointments);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  async function changeMessageAccepted(notificationId) {
+    const updatedNotifications = allNotifications.map((notification) => {
+      if (notification.notificationID === notificationId) {
+        return {
+          ...notification,
+          message: "Accepted",
+        };
+      }
+      return notification;
+    });
+    setAllNotifcations(updatedNotifications);
+  
+    const responseStatus = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "Accepted" }),
+    });
+  }
+
+  async function changeMessageCancelled (notificationId) {
+    const updatedNotifications = allNotifications.map((notification) => {
+      if (notification.notificationID === notificationId) {
+        return {
+          ...notification,
+          message: "Cancelled",
+        };
+      }
+      return notification;
+    });
+    setAllNotifcations(updatedNotifications);
+  
+    const responseStatus = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "Cancelled" }),
+    });
+  }
+
+  async function updateAppointmentDateTime (appointmentId) {
+    const date = new Date('9999-12-31T00:00:00');
+    const time = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ datetime: date.toISOString().replace(/\.000Z$/, '') }),
+    });
+  }
 
   return (
     // sets layout style for navbar section (using tailwind)
@@ -56,9 +131,11 @@ const NavbarOwner = () => {
       onClick={() => setToggle2((prev) => !prev)}
       />
 
+   
       <div className={`${
             !toggle2 ? "hidden" : "flex"
           } p-6 bg-white absolute top-20 md:left-40 xl:left-96 mx-4 my-2 w-[300px] h-[400px] drop-shadow-2xl border-2 border-black`}
+          style={{ zIndex: 9999 }}
         >
           <div className='flex-col'>
 
@@ -66,45 +143,50 @@ const NavbarOwner = () => {
               Notifications
             </div>
 
-            <div className='mt-6 font-poppins text-bg uppercase text-xs'>
-              MM/DD/YY HH:MM:SS
-            </div>
+            {allNotifications.map((item, index) => {
+              return(
 
-            <div className='mt-2 font-poppins text-bg uppercase text-xs font-bold'>
-              {'[USER]'} Has requested an appointment with {'[STYLIST NAME]'} for {'[SERVICES]'}
-            </div>
+                <>
+                  <div key={index}>
+                    <div className="mt-2 font-poppins text-bg uppercase text-xs font-bold">
+                      {item.message}
+                    </div>
+
+                    <div className="flex mt-2">
+                      <div className="font-poppins text-bg uppercase text-xs">
+                          DATE: {allAppointments[index].datetime.slice(0, 10)}
+                      </div>
+
+                      <div className="ml-14 font-poppins text-bg uppercase text-xs">
+                        TIME: {new Date(allAppointments[index].datetime).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-center mt-2">
+                      <button id={`accept-btn-${index}`} className="h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs" onClick={() => {
+                        updateAppointmentStatus(allAppointments[index].appointmentID, 'accepted');
+                        changeMessageAccepted(item.notificationID)
+
+                      } }>
+                        <div className="font-poppins text-white">accept</div>
+                      </button>
+
+                      <button id={`deny-btn-${index}`} className="ml-4 h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs" onClick={() => {
+                        updateAppointmentStatus(allAppointments[index].appointmentID, 'cancelled');
+                        updateAppointmentDateTime(allAppointments[index].appointmentID);
+                        changeMessageCancelled(item.notificationID)
+                        }}>
+                        <div className="font-poppins text-white">deny</div>
+                      </button>
+                    </div>
+                  </div>
+                </>
+
+              );
+
+            })}
+
             
-            <div className='flex mt-2'>
-
-              <div className='font-poppins text-bg uppercase text-xs'>
-                When MM/DD/YY
-              </div>
-
-              <div className='ml-14 font-poppins text-bg uppercase text-xs'>
-                TIME: HH:MM:SS
-              </div>
-
-            </div>
-            
-            <div className='flex justify-center mt-2'>
-
-              <button className='h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs'>
-                
-                <div className='font-poppins text-white'>
-                  accept
-                </div>
-
-              </button>
-
-              <button className='ml-4 h-8 w-16 bg-black mt-2 font-poppins text-bg uppercase text-xs'>
-                
-                <div className='font-poppins text-white'>
-                  deny
-                </div>
-
-              </button>
-
-            </div>
 
           </div>
           

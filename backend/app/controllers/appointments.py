@@ -3,7 +3,7 @@ from app.models import Appointment
 from datetime import datetime
 from datetime import timedelta
 from app.models import Service
-from datetime import datetime, timezone
+from datetime import datetime
 
 def create_appointment(data):
     service = Service.query.get(data['serviceID'])
@@ -12,14 +12,14 @@ def create_appointment(data):
 
     proposed_datetime = data['datetime']
 
-    if is_stylist_busy(data['stylistID'], proposed_datetime, service.duration):
-        return None
+    # if is_stylist_busy(data['stylistID'], proposed_datetime, service.duration):
+    #     return None
 
     appointment = Appointment(
         datetime=proposed_datetime,
         serviceID=data['serviceID'],
         stylistID=data['stylistID'],
-        status='pending'
+        status=data['status']
     )
 
     db.session.add(appointment)
@@ -86,13 +86,16 @@ def get_stylist_appointments(stylist_id):
     appointments = Appointment.query.all()
     result = []
     if not appointments:
-        return None
+        return result
     for appointment in appointments:
         if appointment.stylistID == stylist_id:
             result.append({
+            'id': appointment.appointmentID,
             'datetime': appointment.datetime.isoformat(),
             'service': appointment.serviceID,
             'status': appointment.status
         })
+    if not result:
+        return result
     return result
     

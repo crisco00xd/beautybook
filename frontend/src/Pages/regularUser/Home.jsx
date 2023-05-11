@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "../../style.js";
-import { Footer, Navbar, ViewAppointments } from "../../components";
+import { Footer, Navbar, ViewAppointmentsUser } from "../../components";
 import SalonInfo from "./SalonInfo.jsx"
 import Contact from "./Contact.jsx"
 
@@ -15,7 +15,7 @@ const Home = () => {
 
 		<div className={`bg-white ${styles.flexStart}`}>
 			<div className={`${styles.boxWidth}`}>
-				<ViewAppointments />
+				<ViewAppointmentsUser />
 			</div>
 		</div>
 

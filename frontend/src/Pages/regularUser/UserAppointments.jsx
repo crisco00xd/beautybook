@@ -2,27 +2,35 @@ import React, { useState, useEffect } from 'react'
 import styles from "../../style.js";
 import { Footer, Navbar, Contact, Book, BookLinker, SalonInfo, NavbarOwner, ViewAppointments } from "../../components";
 import { Link } from 'react-router-dom';
-import { get_all_stylist_by_owner, getUserById, getStylist } from "../../queries.jsx";
+import { getAllSalons, getUserById, isOwnerByUserId, getAllStylists } from "../../queries.jsx";
 import { user } from '../../assets/index.js';
 
 const Appointments = () => {
   const [stylist, setStylist] = useState([]);
+  const [isOwner, setIsOwner] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await get_all_stylist_by_owner();
+        const index = parseInt(sessionStorage.getItem('salonID'));
+        
+        const salon = await getAllSalons();
+        const salonId = salon[index].salonID;
 
-        const userIds = data.map(stylist => stylist.userID);
+        const allStylists = await getAllStylists();
+
+        const filteredStylist = allStylists.filter(stylist => stylist.salonID === salonId);
+
+        const userIds = filteredStylist.map(stylist => stylist.userID);
 
         const users = await Promise.all(userIds.map(id => getUserById(id)));
 
-        const stylists = data.map((stylist, index) => ({
+        const stylists = filteredStylist.map((stylist, index) => ({
           id: stylist.stylistID,
           name: `${users[index].first_name} ${users[index].last_name}`,
         }));
 
-        setStylist(stylists);
+        setStylist(stylists);       
   
       } catch (error) {
         console.error(error);
@@ -36,7 +44,7 @@ const Appointments = () => {
 
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
-          <NavbarOwner />
+          <Navbar />
           </div>
       </div>
 
@@ -44,7 +52,7 @@ const Appointments = () => {
 
       {stylist.map((stylists) => (
           <div className="bg-white flex pl-14" key={stylists.id}>
-            <Link to={`/Calendar?stylistId=${stylists.id}`} className="mb-8 font-poppins font-semi sm:text-[30px] text-[20px] text-stone-800">
+            <Link to={`/userCalendar?stylistId=${stylists.id}`} className="mb-8 font-poppins font-semi sm:text-[30px] text-[20px] text-stone-800">
               {stylists.name}
             </Link>
           </div>

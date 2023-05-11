@@ -7,6 +7,7 @@ import Book from "./Book";
 import BookLinker from "./BookLinker";
 import SalonInfo from "./SalonInfo";
 import ViewAppointments from "./ViewAppointments";
+import ViewAppointmentsUser from "./ViewAppointmentsUser"
 
 export {
   Navbar,
@@ -17,5 +18,6 @@ export {
   SalonInfo,
   NavbarStylist,
   NavbarOwner,
-  ViewAppointments
+  ViewAppointments,
+  ViewAppointmentsUser
 };

@@ -1,7 +1,7 @@
-import {isOwnerByUserId ,getAccessToken, isAuthenticated, signIn, getStylistAppointment, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
+import {isOwnerByUserId ,getAccessToken, isAuthenticated, signIn, getAllUsers, get_all_stylist_by_owner, get_all_salon_by_owner } from "../queries";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 let authenticated = false;
 
@@ -18,6 +18,15 @@ function SignIn() {
     console.log(response);
     // const appointment = await getStylistAppointment(1);
     // console.log(appointment);
+
+    const users = await getAllUsers();
+    const userId = users.filter(users => users.email === email)[0].userID;
+
+    authenticated = await isAuthenticated();
+    if (authenticated) {
+      sessionStorage.setItem("id", userId);
+    }
+
     authenticated = await isAuthenticated();
     const isOwner = await isOwnerByUserId(authenticated.userID);
     console.log(isOwner);
