@@ -81,7 +81,7 @@ const NavbarStylist = () => {
     });
     setAllNotifcations(updatedNotifications);
   
-    const responseStatus = await fetch(`${API_BASE_URL}:5000/notifications/${notificationId}`, {
+    const responseStatus = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: "Cancelled" }),
