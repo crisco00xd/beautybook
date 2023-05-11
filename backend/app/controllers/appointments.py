@@ -12,8 +12,8 @@ def create_appointment(data):
 
     proposed_datetime = data['datetime']
 
-    if is_stylist_busy(data['stylistID'], proposed_datetime, service.duration):
-        return None
+    # if is_stylist_busy(data['stylistID'], proposed_datetime, service.duration):
+    #     return None
 
     appointment = Appointment(
         datetime=proposed_datetime,
