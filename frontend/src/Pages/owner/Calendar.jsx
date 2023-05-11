@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
 import { Footer, NavbarOwner} from "../../components";
-import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, isOwnerByUserId } from "../../queries.jsx";
+import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, getAllNotifications } from "../../queries.jsx";
 
 function Calendar() {
   const [events, setEvents] = useState([]);
@@ -48,6 +48,7 @@ function Calendar() {
   //adds events and appointments
   const handleSelect = async (info) => {
     const { start } = info;
+    const userId = parseInt(sessionStorage.getItem('id'));
     const searchParams = new URLSearchParams(location.search);
     const stylistId = parseInt(searchParams.get('stylistId'))
     const services = await getAllServices()
@@ -122,30 +123,67 @@ function Calendar() {
 
       const date = new Date(newDate.getTime() - (newDate.getTimezoneOffset() * 60000)).toISOString().replace(/\.000Z$/, '');
 
-      const data = {
-        datetime: date,
-        serviceID: selectedService.serviceID,
-        stylistID: stylistId,
-        status: "pending"
-      };
+      if (userId === stylist.userID){
+        const data = {
+          datetime: date,
+          serviceID: selectedService.serviceID,
+          stylistID: stylistId,
+          status: "accepted"
+        };
 
-      const response = await fetch(`${API_BASE_URL}/appointments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+        const response = await fetch(`${API_BASE_URL}/appointments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const notification = await getAllNotifications();
+        const responseNotification =await fetch(`${API_BASE_URL}/notifications/${notification[notification.length - 1].notificationID}`, {
+          method : 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: "Accepted" })
+        });
+
+      }else{
+        const data = {
+          datetime: date,
+          serviceID: selectedService.serviceID,
+          stylistID: stylistId,
+          status: "pending"
+        };
+
+        const response = await fetch(`${API_BASE_URL}/appointments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+      }
 
       const appointment = await getAllAppointments()
 
       const service = await getServiceById(appointment[appointment.length - 1].serviceID)
       
-      const newAppointment = {
-        id: appointment[appointment.length - 1].appointmentID,
-        title: service.serviceName,
-        start: newDate,
-        status: "pending",
-      };
-      setEvents([...events, newAppointment]);
+      
+      if (userId === stylist.userID){
+        const newAppointment = {
+          id: appointment[appointment.length - 1].appointmentID,
+          title: service.serviceName,
+          start: newDate,
+          status: "accepted",
+        };
+        setEvents([...events, newAppointment]);
+      }else{
+        const newAppointment = {
+          id: appointment[appointment.length - 1].appointmentID,
+          title: service.serviceName,
+          start: newDate,
+          status: "pending",
+        };
+        setEvents([...events, newAppointment]);
+      }
+      
+      
 
     } catch (error) {
       console.error(error);
@@ -158,9 +196,11 @@ function Calendar() {
     const appointmentId = info.event.id;
     const appointment = await getAppointmentById(appointmentId);
     const userId = parseInt(sessionStorage.getItem('id'));
-    const isOwner = await isOwnerByUserId(userId);
+    const searchParams = new URLSearchParams(location.search);
+    const stylistId = parseInt(searchParams.get('stylistId'))
+    const stylist = await getStylist(stylistId)
     
-    if (isOwner) {
+    if (userId !== stylist.userID) {
       window.alert("You cannot cancel or remove appointments that are not yours.");
       return;
     }
