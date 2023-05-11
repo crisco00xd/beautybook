@@ -59,7 +59,7 @@ export const navLinksStylist = [
     title: "Home",
   },
   {
-    id: "appointments",
+    id: "appointmentsstylist",
     title: "Appointments",
   },
   {
