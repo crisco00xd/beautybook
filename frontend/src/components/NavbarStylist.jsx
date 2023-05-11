@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksStylist} from '../constants';
-import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus } from '../queries';
+import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus, get_all_salon_by_owner, signOut } from '../queries';
 import {API_BASE_URL} from '../config';
+import { useNavigate } from "react-router-dom";
+
 
 const NavbarStylist = () => {
 
@@ -10,6 +12,17 @@ const NavbarStylist = () => {
   const [toggle2, setToggle2] = useState(false); // toggle state for notification bar
   const [allNotifications, setAllNotifcations] = useState([]);
   const [allAppointments, setAllAppointments] = useState([]);
+  const navigate = useNavigate();
+  const [salonName, setSalonName] = useState("");
+
+  const handleTest = async (event) => {
+
+    const salonInfo = await get_all_salon_by_owner();
+    setSalonName(salonInfo[0].salon_name);
+    console.log(salonInfo);
+  };
+
+  handleTest();
 
   const handleSignOut = async (event) => {
     event.preventDefault();
@@ -106,8 +119,10 @@ const NavbarStylist = () => {
     */
 
     <nav className = 'w-full flex py-6 justify-between items-center navbar'>
-      <img src = {salonlogo} alt = 'samplesalon' // places logo on left hand side of navbar
-      className = 'w-[124px] h-[32px]' />
+      
+      <div className='font-poppins text-white font-lg'>
+        {salonName}
+      </div>
 
       <img src = {notificationsIcon} alt = 'samplesalon' // places logo on left hand side of navbar
       className = 'ml-4 w-[22px] h-[24px]' 
