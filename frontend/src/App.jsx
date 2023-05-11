@@ -12,6 +12,8 @@ import {
 import Salons from "./Pages/Salons";
 import EditUser from "./Pages/owner/EditUser";
 import Calendar from "./Pages/owner/Calendar";
+import UserCalendar from "./Pages/regularUser/UserCalendar";
+
 const App = () => (
 	<div>
 		<Router>
@@ -26,6 +28,7 @@ const App = () => (
 				<Route path="/signup" element={<SignUp/>}/>
 
 				<Route path="/home" element={<Home/>}/>
+				<Route path="/usercalendar" element={<UserCalendar/>}/>
 				
 				{/* Routes for owner user perspective */}
 				<Route path="/home@" element={<HomeOwner/>}/>
