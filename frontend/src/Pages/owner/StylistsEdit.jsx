@@ -2,7 +2,7 @@ import { NavbarOwner } from "../../components"
 import styles from "../../style"
 import { useState } from 'react';
 import { Footer } from "../../components";
-import { get_all_stylist_by_owner, createUser, get_all_salon_by_owner, getUserById } from "../../queries";
+import { get_all_stylist_by_owner, createUser, get_all_salon_by_owner, getUserById, createService } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -52,18 +52,32 @@ const StylistsEdit = () => {
       admin: false,
       salonID: salonInfo[0].salonID
     };
+
+    const data1 = {
+      name: service,
+      cost: 10,
+      description: "Haircut",
+      duration: 30
+    }
+    
     
     const response = await createUser(data);
 
-    console.log(response);
-
+    
     
     if(response.status === 200){
       alert("User created successfully");
-      navigate("/salon");
+      const service_res = await createService(data1);
+      if(service_res.message === "Service created"){
+        alert("Service created successfully");
+        navigate("/salon");
+      }
+      else{
+        alert("Error creating service");
+      }
     }
     else{
-      alert("Error creating user");
+      alert("User Email Already Exists");
     }
   };
 

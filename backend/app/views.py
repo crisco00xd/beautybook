@@ -218,6 +218,15 @@ def get_stylist(stylist_id):
 
     return jsonify(stylist.serialize())
 
+@app.route('/stylists/user/<int:user_id>', methods=['GET'])
+def get_stylist_by_user(user_id):
+    stylist = Stylist.query.filter_by(userID=user_id).first()
+    if not stylist:
+        return jsonify({"error": "Stylist not found"}), 404
+
+    return jsonify(stylist.serialize())
+
+
 # Get all stylists
 @app.route('/stylists', methods=['GET'])
 def get_all_stylists():

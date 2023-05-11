@@ -7016,3 +7016,6 @@ backend/venv/Lib/site-packages/jwt/__pycache__/jwks_client.cpython-39.pyc
 backend/venv/Lib/site-packages/jwt/__pycache__/utils.cpython-39.pyc
 backend/venv/Lib/site-packages/jwt/__pycache__/warnings.cpython-39.pyc
 backend/app/controllers/__pycache__/uploadImage.cpython-311.pyc
+backend/migrations/__pycache__/env.cpython-39.pyc
+backend/migrations/versions/02f78d95f00a_.py
+backend/migrations/versions/__pycache__/02f78d95f00a_.cpython-311.pyc

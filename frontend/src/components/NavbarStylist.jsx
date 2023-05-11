@@ -19,7 +19,6 @@ const NavbarStylist = () => {
 
     const salonInfo = await get_all_salon_by_owner();
     setSalonName(salonInfo[0].salon_name);
-    console.log(salonInfo);
   };
 
   handleTest();
@@ -29,11 +28,10 @@ const NavbarStylist = () => {
     // handle login logic here
     
     const response = await signOut()
-    console.log(response);
 
     if(response.status === 200){
       alert("User signed out successfully");
-      navigate("/saloncreate");
+      navigate("/");
     }
     else{
       alert("Error Siging Out");

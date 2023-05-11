@@ -12,30 +12,33 @@ const Statistics = () => {
   var approved = 0;
   var pending = 0;
   var cancelled = 0;
+  var finished = 0;
   var total = 0;
+
+  const [stylistsData, setStylistsData] = useState([]);
 
   useEffect(() => {
     const handleTest = async () => {
       const salonStylists = await get_all_stylist_by_owner();
       const array = await Promise.all(salonStylists.map(async (stylist) => {
         const user = await getUserById(stylist.userID);
-        const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.userID, "approved");
-        approved = approvedAppointments.length;
-        const pendingAppointments = await getAppointmentsOfStylistByStatus(stylist.userID, "pending");
-        pending = pendingAppointments.length;
-        const cancelledAppointments = await getAppointmentsOfStylistByStatus(stylist.userID, "cancelled");
-        cancelled = cancelledAppointments.length;
-        return user.first_name;
+        const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "approved");
+        const pendingAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "pending");
+        const cancelledAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "cancelled");
+        const finishedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "finished");
+        return {
+          name: user.first_name,
+          approved: approvedAppointments.length,
+          pending: pendingAppointments.length,
+          cancelled: cancelledAppointments.length,
+          finished: finishedAppointments.length,
+          total: approvedAppointments.length + pendingAppointments.length + cancelledAppointments.length + finishedAppointments.length
+        };
       }));
-      setArray2(array);
-      total = approved + pending + cancelled;
-    }
+      setStylistsData(array);
+    };
     handleTest();
   }, []);
-  
-  console.log(approved);
-  console.log(pending);
-  console.log(cancelled);
 
   return (
     <div className='w-full overflow-hidden'>
@@ -75,6 +78,12 @@ const Statistics = () => {
             </div>
           </div>
 
+          <div className="flex justify-center items-center h-14 sm:w-32 w-20 border-4 border-black">
+            <div className="font-poppins text-black font-medium text-xs text-center sm:scale-100 scale-75">
+              FINISHED APPOINTMENTS
+            </div>
+          </div>
+
           <div className="flex justify-center items-center h-14 sm:w-32 w-56 border-4 border-black">
             <div className="font-poppins text-black font-medium text-lg">
               TOTAL
@@ -86,38 +95,44 @@ const Statistics = () => {
 
         <div className="flex flex-col"> 
           
-          {array2.map((name, index) => (
+        {stylistsData.map((stylist, index) => (
             
 
             <div className="flex justify-center sm:scale-100 scale-75">
 
               <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
                 <div key={index} className="font-poppins text-black font-medium sm:text-lg">
-                  {name}
+                  {stylist.name}
                 </div>
               </div>
 
               <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
                 <div className="font-poppins text-black font-medium sm:text-lg">
-                  {approved}
+                  {stylist.approved}
                 </div>
               </div>
 
               <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
                 <div className="font-poppins text-black font-medium sm:text-lg">
-                  {pending}
+                  {stylist.cancelled}
                 </div>
               </div>
 
               <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
                 <div className="font-poppins text-black font-medium sm:text-lg">
-                  {cancelled}
+                  {stylist.pending}
                 </div>
               </div>
 
               <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
                 <div className="font-poppins text-black font-medium sm:text-lg">
-                  {total}
+                  {stylist.finished}
+                </div>
+              </div>
+
+              <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
+                <div className="font-poppins text-black font-medium sm:text-lg">
+                  {stylist.total}
                 </div>
               </div>
 

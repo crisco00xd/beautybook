@@ -18,7 +18,6 @@ const Contact = () => {
     setCloseTime(salonInfo[0].closeTime)
     setPhone(salonInfo[0].phone)
     setEmail(salonInfo[0].email)
-    console.log(salonInfo);
 
     // if(test.message === "Salon updated") {
     //   navigate("/home@")

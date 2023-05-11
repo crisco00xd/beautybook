@@ -19,7 +19,6 @@ const SalonInfo = () => {
     setDescription(salonInfo[0].description);
     setStartTime(salonInfo[0].startTime)
     setCloseTime(salonInfo[0].closeTime)
-    console.log(salonInfo);
 
     // if(test.message === "Salon updated") {
     //   navigate("/home@")

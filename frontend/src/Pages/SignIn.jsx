@@ -15,9 +15,6 @@ function SignIn() {
     // handle login logic here
 
     const response = await signIn(email, password)
-    console.log(response);
-    // const appointment = await getStylistAppointment(1);
-    // console.log(appointment);
 
     const users = await getAllUsers();
     const userId = users.filter(users => users.email === email)[0].userID;
@@ -29,12 +26,6 @@ function SignIn() {
 
     authenticated = await isAuthenticated();
     const isOwner = await isOwnerByUserId(authenticated.userID);
-    console.log(isOwner);
-    console.log(authenticated.userID);
-    // const stylist_byOwner = await get_all_stylist_by_owner();
-    // console.log(stylist_byOwner);
-    // const salon_byOwner = await get_all_salon_by_owner();
-    // console.log(salon_byOwner);
 
     if(response.status === 200 && isOwner.is_owner === true){
       alert("User logged in successfully");

@@ -90,7 +90,7 @@ function Signup() {
     
     const response = await createUser(data)
 
-    console.log(response);
+
 
     
     if(response.status === 200){

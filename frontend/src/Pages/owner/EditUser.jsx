@@ -35,10 +35,10 @@ function EditUser() {
     };
     
     const userID = await isAuthenticated();
-    console.log(userID);
+
     const response = await updateUser(userID.userID, data);
 
-    console.log(response);
+
 
     
     if(response.message === 'User updated'){

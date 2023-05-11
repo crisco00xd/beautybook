@@ -37,8 +37,7 @@ const SalonCreate = () => {
     const salon_byOwner = await get_all_salon_by_owner();
     const test = await updateSalon(salon_byOwner[0].salonID, data);
     idTest = salon_byOwner[0];
-    console.log(salon_byOwner);
-    console.log(test);
+
 
     if(test.message === "Salon updated") {
       navigate("/home@")

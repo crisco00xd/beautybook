@@ -13,7 +13,6 @@ const BeautyBook = () => {
 
     const handleIndex = (index) => {
 
-        console.log(index);
         sessionStorage.setItem("salonID", index);
         navigate("/home");
 

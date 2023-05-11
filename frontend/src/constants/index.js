@@ -41,7 +41,7 @@ export const navLinksOwner = [
   },
   {
     id: "statistics",
-    title: "Satistics",
+    title: "Statistics",
   },
   {
     id: "salon",
@@ -64,7 +64,7 @@ export const navLinksStylist = [
   },
   {
     id: "statisticsstylist",
-    title: "Satistics",
+    title: "Statistics",
   },
   {
     id: "servicesedit",

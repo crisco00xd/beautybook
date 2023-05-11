@@ -53,7 +53,6 @@ const SalonEdit = () => {
     // };
 
     const response = true // await createSalon(data)
-    console.log(response);
 
 
     if (response){

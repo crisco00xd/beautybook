@@ -16,14 +16,6 @@ const Salon = () => {
 
     const salonInfo = await get_all_salon_by_owner();
     setSalonName(salonInfo[0].salon_name);
-    console.log(salonInfo);
-
-    // if(test.message === "Salon updated") {
-    //   navigate("/home@")
-    // }
-    // else {
-    //   alert("An error has ocurred")
-    // }
   };
 
   handleTest();

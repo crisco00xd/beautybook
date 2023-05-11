@@ -1,12 +1,14 @@
 from app import db
 from app.models import Service
 from app.models import Service
+from datetime import timedelta
 
 def create_service(data):
     #Checks if service already exists
     # if service_exist(data['serviceID']):
     #     return None
-    
+    duration_in_minutes = data['duration']
+    data['duration'] = timedelta(minutes=duration_in_minutes)
     service = Service(
         serviceName = data['name'],
         cost = data['cost'],
