@@ -122,6 +122,7 @@ function Calendar() {
         datetime: date,
         serviceID: selectedService.serviceID,
         stylistID: stylistId,
+        status: "pending"
       };
 
       console.log("data", data)

@@ -122,6 +122,7 @@ function Appointment() {
         datetime: date,
         serviceID: selectedService.serviceID,
         stylistID: stylistId,
+        status: "Accepted"
       };
 
       console.log("data", data)
@@ -141,7 +142,7 @@ function Appointment() {
         id: appointment[appointment.length - 1].appointmentID,
         title: service.serviceName,
         start: newDate,
-        status: "pending",
+        status: "Accepted",
       };
       setEvents([...events, newAppointment]);
 
