@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
 import { Footer, NavbarOwner} from "../../components";
-import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById } from "../../queries.jsx";
+import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, isOwnerByUserId } from "../../queries.jsx";
 
 function Calendar() {
   const [events, setEvents] = useState([]);
@@ -154,6 +154,13 @@ function Calendar() {
     const { start } = info.event;
     const appointmentId = info.event.id;
     const appointment = await getAppointmentById(appointmentId);
+    const userId = parseInt(sessionStorage.getItem('id'));
+    const isOwner = await isOwnerByUserId(userId);
+    
+    if (isOwner) {
+      window.alert("You cannot cancel or remove appointments that are not yours.");
+      return;
+    }
 
     if (appointment.status === "pending"){
         window.alert("If you want to remove a pending appointment you have to do it via notifications");
