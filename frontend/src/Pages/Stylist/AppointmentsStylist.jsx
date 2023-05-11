@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
-import { Footer, NavbarOwner} from "../../components";
+import { Footer, NavbarStylist} from "../../components";
 import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById } from "../../queries.jsx";
 
 function Appointment() {
@@ -239,7 +239,7 @@ function Appointment() {
     <div className="bg-primary w-full overflow-hidden">
     <div className={`${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
-          <NavbarOwner />
+          <NavbarStylist />
           </div>
     </div>
     </div>
