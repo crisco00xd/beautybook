@@ -36,7 +36,7 @@ const Appointments = () => {
 
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
-          <Navbar />
+          <NavbarOwner />
           </div>
       </div>
 
