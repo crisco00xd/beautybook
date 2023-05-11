@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {API_BASE_URL} from '../../config';
 import Fullcalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -125,7 +126,7 @@ function Appointment() {
 
       console.log("data", data)
 
-      const response = await fetch('http://localhost:5000/appointments', {
+      const response = await fetch(`${API_BASE_URL}/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -166,7 +167,7 @@ function Appointment() {
       const isconfirmed = window.confirm("Are you sure you want to finish the appointment?");
       if (isconfirmed) {
         try {
-          const responseStatus = await fetch(`http://localhost:5000/appointments/${appointmentId}`, {
+          const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "finished" }), // set the new status here
@@ -180,7 +181,7 @@ function Appointment() {
         const isconfirmed = window.confirm("Are you sure you want to cancel the appointment?");
         if (isconfirmed) {
           try {
-            const responseStatus = await fetch(`http://localhost:5000/appointments/${appointmentId}`, {
+            const responseStatus = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ status: "cancelled" }), // set the new status here
@@ -192,7 +193,7 @@ function Appointment() {
     }
 
     const date = new Date('9999-12-31T00:00:00');
-    const responseTime = await fetch(`http://localhost:5000/appointments/${appointmentId}`, {
+    const responseTime = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ datetime: date.toISOString().replace(/\.000Z$/, '') }),

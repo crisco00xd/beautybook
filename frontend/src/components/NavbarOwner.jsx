@@ -3,6 +3,7 @@ import {close, menu, salonlogo, notificationsIcon} from '../assets';
 import {navLinks, navLinksOwner} from '../constants';
 import { signOut, getAllNotifications, getAllAppointments, getAllStylists, updateAppointmentStatus } from '../queries';
 import { useNavigate } from "react-router-dom";
+import {API_BASE_URL} from '../config';
 
 const NavbarOwner = () => {
 
@@ -64,7 +65,7 @@ const NavbarOwner = () => {
     });
     setAllNotifcations(updatedNotifications);
   
-    const responseStatus = await fetch(`http://localhost:5000/notifications/${notificationId}`, {
+    const responseStatus = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: "Accepted" }),
@@ -83,7 +84,7 @@ const NavbarOwner = () => {
     });
     setAllNotifcations(updatedNotifications);
   
-    const responseStatus = await fetch(`http://localhost:5000/notifications/${notificationId}`, {
+    const responseStatus = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: "Cancelled" }),
@@ -92,7 +93,7 @@ const NavbarOwner = () => {
 
   async function updateAppointmentDateTime (appointmentId) {
     const date = new Date('9999-12-31T00:00:00');
-    const time = await fetch(`http://localhost:5000/appointments/${appointmentId}`, {
+    const time = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ datetime: date.toISOString().replace(/\.000Z$/, '') }),
