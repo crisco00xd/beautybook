@@ -18,12 +18,12 @@ function Signup() {
   const [selectedClosingMinute, setSelectedClosingMinute] = useState("");
   const [selectedAMOrPm2, setSelectedAMOrPM2] = useState("");
 
-  const hours = ["01", "02", "03", "04", "05", "06", "07", "08","09", "10", "11", "12"];
+  const hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"];
   const minute = ["00","5", "10", "15", "20", "25", "30", "35", "40","45", "50", "55"];
   const amOrPm = ["AM","PM"];
   const startTime = selectedStartTime + ":"+ selectedStartMinute + ":" + "00";
 
-  const hours2 = ["01", "02", "03", "04", "05", "06", "07", "08","09", "10", "11", "12"];
+  const hours2 = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"];
   const minute2 = ["00","5", "10", "15", "20", "25", "30", "35", "40","45", "50", "55"];
   const amOrPm2 = ["AM","PM"];
   const closeTime = selectedClosingTime + ":"+ selectedClosingMinute + ":" + "00";

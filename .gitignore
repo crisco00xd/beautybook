@@ -7019,3 +7019,5 @@ backend/app/controllers/__pycache__/uploadImage.cpython-311.pyc
 backend/migrations/__pycache__/env.cpython-39.pyc
 backend/migrations/versions/02f78d95f00a_.py
 backend/migrations/versions/__pycache__/02f78d95f00a_.cpython-311.pyc
+backend/migrations/versions/92529acf4b1d_.py
+backend/migrations/versions/__pycache__/92529acf4b1d_.cpython-311.pyc

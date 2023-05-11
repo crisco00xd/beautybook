@@ -19,7 +19,7 @@ const StatisticsStylist = () => {
       const user = await getUserById(userID.userID);
       const stylist = await getStylistByUser(userID.userID);
       const name = user.first_name;
-      const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "approved");
+      const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "accepted");
       setApproved(approvedAppointments.length);
       const pendingAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "pending");
       setPending(pendingAppointments.length);
@@ -102,13 +102,13 @@ const StatisticsStylist = () => {
 
     <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
       <div className="font-poppins text-black font-medium sm:text-lg">
-        {pending}
+        {cancelled}
       </div>
     </div>
 
     <div className="flex justify-center items-center h-14 w-32 border-4 border-black">
       <div className="font-poppins text-black font-medium sm:text-lg">
-        {cancelled}
+        {pending}
       </div>
     </div>
 

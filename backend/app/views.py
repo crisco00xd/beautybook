@@ -46,6 +46,8 @@ def get_all_users():
 @app.route('/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     data = request.get_json()
+    hashed_password = generate_password_hash(data['password'])
+    data['password'] = hashed_password
     user = users.update_user(user_id, data)
     if not user:
         return jsonify({"error": "User not found"}), 404

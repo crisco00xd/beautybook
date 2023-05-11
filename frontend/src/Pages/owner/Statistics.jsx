@@ -22,7 +22,7 @@ const Statistics = () => {
       const salonStylists = await get_all_stylist_by_owner();
       const array = await Promise.all(salonStylists.map(async (stylist) => {
         const user = await getUserById(stylist.userID);
-        const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "approved");
+        const approvedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "accepted");
         const pendingAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "pending");
         const cancelledAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "cancelled");
         const finishedAppointments = await getAppointmentsOfStylistByStatus(stylist.stylistID, "finished");
