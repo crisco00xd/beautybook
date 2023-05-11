@@ -90,6 +90,7 @@ def get_stylist_appointments(stylist_id):
     for appointment in appointments:
         if appointment.stylistID == stylist_id:
             result.append({
+            'id': appointment.appointmentID,
             'datetime': appointment.datetime.isoformat(),
             'service': appointment.serviceID,
             'status': appointment.status
