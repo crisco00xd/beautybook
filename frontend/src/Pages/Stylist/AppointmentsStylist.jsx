@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionGrid from '@fullcalendar/interaction'
 import styles from "../../style.js";
 import { Footer, NavbarStylist} from "../../components";
-import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById } from "../../queries.jsx";
+import { getAllAppointments, getServiceById, getAllServices, getStylistAppointment, getSalon, getStylist, getAppointmentById, getAllStylists, getAllNotifications } from "../../queries.jsx";
 
 function Appointment() {
   const [events, setEvents] = useState([]);
@@ -15,11 +15,16 @@ function Appointment() {
   useEffect(() => {
     async function fetchAppointments() {
       try {
-        const searchParams = new URLSearchParams(location.search);
-        const stylistId = parseInt(searchParams.get('stylistId'));
+        const userId = parseInt(sessionStorage.getItem('id'));
+        const stylists = await getAllStylists();
+        const stylist = stylists.filter (stylist => stylist.userID === userId)[0].stylistID;
 
-        const appointments = await getStylistAppointment(stylistId)
+        const appointments = await getStylistAppointment(stylist)
        
+        if (appointments.error === "Appointment not found"){
+          return;
+        }
+
         const formattedAppointments = await Promise.all(
           appointments
             .filter(appointment => appointment.status !== "finished")
@@ -44,8 +49,9 @@ function Appointment() {
   //adds events and appointments
   const handleSelect = async (info) => {
     const { start } = info;
-    const searchParams = new URLSearchParams(location.search);
-    const stylistId = parseInt(searchParams.get('stylistId'))
+    const userId = parseInt(sessionStorage.getItem('id'));
+    const stylists = await getAllStylists();
+    const stylistId = stylists.filter (stylist => stylist.userID === userId)[0].stylistID;
     const services = await getAllServices()
     const stylist = await getStylist(stylistId)
     const salon = await getSalon(stylist.salonID)
@@ -122,10 +128,8 @@ function Appointment() {
         datetime: date,
         serviceID: selectedService.serviceID,
         stylistID: stylistId,
-        status: "Accepted"
+        status: "accepted"
       };
-
-      console.log("data", data)
 
       const response = await fetch(`${API_BASE_URL}/appointments`, {
         method: 'POST',
@@ -133,16 +137,21 @@ function Appointment() {
         body: JSON.stringify(data),
       });
 
-      const appointment = await getAllAppointments()
+      const notification = await getAllNotifications();
+      const responseNotification =await fetch(`${API_BASE_URL}/notifications/${notification[notification.length - 1].notificationID}`, {
+        method : 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: "Accepted" })
+      });
 
+      const appointment = await getAllAppointments();
       const service = await getServiceById(appointment[appointment.length - 1].serviceID)
-      console.log("appointment", appointment[appointment.length - 1])
       
       const newAppointment = {
         id: appointment[appointment.length - 1].appointmentID,
         title: service.serviceName,
         start: newDate,
-        status: "Accepted",
+        status: "accepted",
       };
       setEvents([...events, newAppointment]);
 
