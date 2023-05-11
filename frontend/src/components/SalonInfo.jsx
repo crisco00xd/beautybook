@@ -44,7 +44,7 @@ const SalonInfo = () => {
           EDIT SALON
         </Link>
 
-        <div className="flex flex-row justify-between items-center w-full">
+        <div className="flex flex-row justify-between items-center w-full uppercase">
           <h1 className="flex-1 font-poppins font-semibold ss:text-[72px] text-[52px] text-stone-800 ss:leading-[100.8px] leading-[75px]">
             WELCOME TO {salonName} <br className="sm:block hidden" />{" "}
           </h1>
