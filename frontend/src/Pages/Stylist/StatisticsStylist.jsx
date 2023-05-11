@@ -1,4 +1,4 @@
-import { statsImage, user } from "../../assets"
+import { viewAppts } from "../../assets"
 import { NavbarStylist, Footer } from "../../components"
 import styles from "../../style"
 import { getAppointmentsOfStylistByStatus, get_all_stylist_by_owner, getUserById, isAuthenticated } from "../../queries"
@@ -42,30 +42,8 @@ const StatisticsStylist = () => {
 			</div>
 		</div>
 
-    <img src = {statsImage} alt = 'viewAppts'
+    <img src = {viewAppts} alt = 'viewAppts'
       className = 'sm:mt-16 mt-6 mb-6 w-full h-auto' />
-
-    <div className="mt-10 flex justify-center sm:scale-100 scale-50">
-
-    <button className="flex justify-center items-center bg-black h-14 w-32">
-      <div className="font-poppins text-white font-medium text-xl">
-        ALL TIME
-      </div>
-    </button>
-
-    <button className="flex justify-center items-center h-14 w-32 border-4 border-black">
-      <div className="font-poppins text-black font-medium text-lg">
-        THIS MONTH
-      </div>
-    </button>
-
-    <button className="flex justify-center items-center h-14 w-40 ml-6">
-      <div className="font-poppins text-black font-medium text-base hover:text-gray-500">
-        CUSTOM TIMELINE
-      </div>
-    </button> 
-
-    </div>
 
     <div className="mt-10 flex justify-center sm:scale-100 scale-75">
 

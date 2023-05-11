@@ -1,10 +1,22 @@
 import { useState } from 'react';
 import {close, menu, salonlogo} from '../assets';
 import {navLinks} from '../constants';
+import { getAllSalons } from '../queries';
 
 const Navbar = () => {
 
   const [toggle, setToggle] = useState(false); // toggle state for navbar in mobile devices
+  const [salonName, setSalonName] = useState("");
+
+  const handleSubmit = async (event) => {
+
+    const index = parseInt(sessionStorage.getItem("salonID"));
+    const response = await getAllSalons();
+    setSalonName(response[index].salon_name);
+    
+  };
+
+  handleSubmit();
 
   return (
     // sets layout style for navbar section (using tailwind)
@@ -15,8 +27,10 @@ const Navbar = () => {
     */
 
     <nav className = 'w-full flex py-6 justify-between items-center navbar'>
-      <img src = {salonlogo} alt = 'samplesalon' // places logo on left hand side of navbar
-      className = 'w-[124px] h-[32px]' />
+
+      <div className='font-poppins text-white font-lg'>
+        {salonName}
+      </div>
 
       <ul className = 'list-none sm:flex hidden justify-end items-center flex-1'>
         {navLinks.map((nav, index) => (
